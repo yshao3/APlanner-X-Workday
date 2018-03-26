@@ -7,9 +7,9 @@ db.createCollection("categories", {
             pool: {
                bsonType: "array",
                description: "must be an array and is required"
-            }
+            },
             is_elective:{
-               bsonType: "boolean",
+               bsonType: "bool",
                description: "must be a boolean and is required"
             }
          }

@@ -21,10 +21,12 @@ db.createCollection("degrees", {
                description: "must be a string and is required"
             },
             is_minor: {
-               bsonType: [ "boolean" ],
+               bsonType: [ "bool" ],
                description: "must be a boolean and is required"
             }
          }
       }
    }
 })
+
+

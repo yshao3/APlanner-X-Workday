@@ -20,7 +20,7 @@ db.createCollection("students", {
                bsonType: "array",
                description: "must be an array and is not required"
             },
-            expected_grad_time{
+            expected_grad_time:{
                bsonType: "date",
                description: "must be a date and is required"
             }

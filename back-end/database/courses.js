@@ -17,32 +17,32 @@ db.createCollection("courses", {
                description: "must be a string and is not required"
             },
 			prerequisite: {
-               bsonType: "arrays",
+               bsonType: "array",
                description: "must be a arrays and is not required"
             },
 			corequisite: {
-               bsonType: "arrays",
+               bsonType: "array",
                description: "must be a arrays and is not required"
             },
 			tags: {
-               bsonType: "arrays",
+               bsonType: "array",
                description: "must be a arrays and is not required"
             },
-            when_offer: {
-			   bsonType: "arrays",
+         when_offer: {
+			   bsonType: "array",
                //enum: [ "Fall", "Spring", "Summer", "winter", "Fall and Spring"],
-               description: "arrays of enum and is not required"
+            description: "arrays of enum and is not required"
 			   //"can only be one of the enum values and is required"
             },
 			min_unit: {
 				bsonType: "int",
 				minimum: 0,
 				description: "must be an integer and is not required"
-			}
+			},
 			description: {
 				bsonType: "string",
-                description: "must be a string and is not required"
-			}
+            description: "must be a string and is not required"
+			   }
          }
       }
    }
