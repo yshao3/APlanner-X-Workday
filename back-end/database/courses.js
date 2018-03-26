@@ -1,3 +1,8 @@
+// import
+// connect = new Mongo();
+// // db = conn.getDB("myDatabase");
+// db = connect("localhost:27020/myDatabase");
+
 db.createCollection("courses", {
    validator: {
       $jsonSchema: {
@@ -38,12 +43,13 @@ db.createCollection("courses", {
 				bsonType: "int",
 				minimum: 0,
 				description: "must be an integer and is not required"
-			}
+			},
 			description: {
 				bsonType: "string",
                 description: "must be a string and is not required"
 			}
          }
-      }
-   }
+	 }
+ },
+ validationAction: "warn"
 })
