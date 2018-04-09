@@ -23,7 +23,9 @@ class CourseCollectionViewController: UICollectionViewController {
         // Register cell classes
         //self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         loadSampleCourses()
-        self.collectionView!.register(CourseCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        //self.collectionView!.register(CourseCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        //collectionView!.register(UINib(nibName: reuseIdentifier, bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
+
         
         //loadSampleCourses()
         // Do any additional setup after loading the view.
@@ -41,14 +43,14 @@ class CourseCollectionViewController: UICollectionViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
-    }
+    }Graph Convolutional Networks
     */
 
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return 2
     }
 
 
@@ -69,7 +71,7 @@ class CourseCollectionViewController: UICollectionViewController {
         // Fetches the appropriate meal for the data source layout.
         let course = courses[indexPath.row]
         //print(cell.numberLabel.text)
-        cell.backgroundColor = UIColor.red
+        cell.backgroundColor = UIColor.green
         cell.numberLabel.text = course.number
         cell.titleLabel.text = course.title
         
@@ -90,8 +92,12 @@ class CourseCollectionViewController: UICollectionViewController {
         guard let course3 = Course.init(number: "CS4410", title: "Operating Systems") else {
             fatalError("Unable to instantiate course3")
         }
+        
+        guard let course4 = Course.init(number: "CS4450", title: "Computer Networks") else {
+            fatalError("Unable to instantiate course3")
+        }
 
-        courses += [course1, course2, course3]
+        courses += [course1, course2, course3, course4]
     }
 
     // MARK: UICollectionViewDelegate
