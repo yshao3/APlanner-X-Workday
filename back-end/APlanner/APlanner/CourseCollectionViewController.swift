@@ -94,7 +94,7 @@ class CourseCollectionViewController: UICollectionViewController {
         }
         
         guard let course4 = Course.init(number: "CS4450", title: "Computer Networks") else {
-            fatalError("Unable to instantiate course3")
+            fatalError("Unable to instantiate course4")
         }
 
         courses += [course1, course2, course3, course4]

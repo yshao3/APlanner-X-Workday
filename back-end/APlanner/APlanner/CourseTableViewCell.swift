@@ -2,17 +2,15 @@
 //  CourseTableViewCell.swift
 //  APlanner
 //
-//  Created by MLyu on 21/03/2018.
+//  Created by MLyu on 2018/4/11.
 //  Copyright © 2018 Team-I. All rights reserved.
 //
 
 import UIKit
 
 class CourseTableViewCell: UITableViewCell {
-    //MARK: Properties
-    
-    @IBOutlet weak var CourseNumber: UILabel!
-    @IBOutlet weak var CourseNameButton: UIButton!
+
+    @IBOutlet weak var courseLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,4 +23,7 @@ class CourseTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBAction func setInValidInfo(_ sender: UIButton) {
+        courseLabel.text = "Invalid"
+    }
 }
