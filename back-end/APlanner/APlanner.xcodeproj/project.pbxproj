@@ -13,15 +13,12 @@
 		07031BD7207E9BEE0098BD78 /* CourseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07031BD6207E9BEE0098BD78 /* CourseTableViewController.swift */; };
 		07031BD9207ECEFC0098BD78 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07031BD8207ECEFC0098BD78 /* PageViewController.swift */; };
 		07031BDB207ED3D50098BD78 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07031BDA207ED3D50098BD78 /* Node.swift */; };
-		07125F07206B261E004071EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07125F06206B261E004071EC /* ViewController.swift */; };
-		0772E2A5206410590051B942 /* CourseCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0772E2A4206410590051B942 /* CourseCollectionViewController.swift */; };
-		0772E2A7206416840051B942 /* CourseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0772E2A6206416840051B942 /* CourseCollectionViewCell.swift */; };
+		07031BDD2081632B0098BD78 /* Semester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07031BDC2081632B0098BD78 /* Semester.swift */; };
 		078500C02062FB290030A845 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078500BF2062FB290030A845 /* AppDelegate.swift */; };
 		078500C52062FB290030A845 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 078500C32062FB290030A845 /* Main.storyboard */; };
 		078500C72062FB290030A845 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 078500C62062FB290030A845 /* Assets.xcassets */; };
 		078500CA2062FB290030A845 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 078500C82062FB290030A845 /* LaunchScreen.storyboard */; };
 		078500D52062FB290030A845 /* APlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078500D42062FB290030A845 /* APlannerTests.swift */; };
-		078500E42063353A0030A845 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078500E32063353A0030A845 /* Course.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,9 +38,7 @@
 		07031BD6207E9BEE0098BD78 /* CourseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTableViewController.swift; sourceTree = "<group>"; };
 		07031BD8207ECEFC0098BD78 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		07031BDA207ED3D50098BD78 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
-		07125F06206B261E004071EC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		0772E2A4206410590051B942 /* CourseCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCollectionViewController.swift; sourceTree = "<group>"; };
-		0772E2A6206416840051B942 /* CourseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCollectionViewCell.swift; sourceTree = "<group>"; };
+		07031BDC2081632B0098BD78 /* Semester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Semester.swift; sourceTree = "<group>"; };
 		078500BC2062FB290030A845 /* APlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = APlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		078500BF2062FB290030A845 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		078500C42062FB290030A845 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -53,7 +48,6 @@
 		078500D02062FB290030A845 /* APlannerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APlannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		078500D42062FB290030A845 /* APlannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APlannerTests.swift; sourceTree = "<group>"; };
 		078500D62062FB290030A845 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		078500E32063353A0030A845 /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,15 +94,12 @@
 				07031BD8207ECEFC0098BD78 /* PageViewController.swift */,
 				07031BD6207E9BEE0098BD78 /* CourseTableViewController.swift */,
 				07031BD0207E92920098BD78 /* CourseTableViewCell.swift */,
-				07125F06206B261E004071EC /* ViewController.swift */,
-				0772E2A6206416840051B942 /* CourseCollectionViewCell.swift */,
-				0772E2A4206410590051B942 /* CourseCollectionViewController.swift */,
-				078500E32063353A0030A845 /* Course.swift */,
 				078500C62062FB290030A845 /* Assets.xcassets */,
 				078500C82062FB290030A845 /* LaunchScreen.storyboard */,
 				078500CB2062FB290030A845 /* Info.plist */,
 				07031BCC207C63B20098BD78 /* Deque-Optimized.swift */,
 				07031BCE207C64590098BD78 /* Scheduler.swift */,
+				07031BDC2081632B0098BD78 /* Semester.swift */,
 				07031BDA207ED3D50098BD78 /* Node.swift */,
 			);
 			path = APlanner;
@@ -227,16 +218,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				07031BD1207E92920098BD78 /* CourseTableViewCell.swift in Sources */,
+				07031BDD2081632B0098BD78 /* Semester.swift in Sources */,
 				07031BD9207ECEFC0098BD78 /* PageViewController.swift in Sources */,
 				07031BD7207E9BEE0098BD78 /* CourseTableViewController.swift in Sources */,
 				07031BDB207ED3D50098BD78 /* Node.swift in Sources */,
-				07125F07206B261E004071EC /* ViewController.swift in Sources */,
 				07031BCF207C64590098BD78 /* Scheduler.swift in Sources */,
-				0772E2A7206416840051B942 /* CourseCollectionViewCell.swift in Sources */,
 				07031BCD207C63B20098BD78 /* Deque-Optimized.swift in Sources */,
 				078500C02062FB290030A845 /* AppDelegate.swift in Sources */,
-				078500E42063353A0030A845 /* Course.swift in Sources */,
-				0772E2A5206410590051B942 /* CourseCollectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

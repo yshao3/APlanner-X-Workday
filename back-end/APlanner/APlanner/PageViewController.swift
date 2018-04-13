@@ -20,7 +20,7 @@ class PageViewController: UIViewController {
     @IBOutlet weak var areaLabel: UILabel!
     @IBOutlet weak var tagLabel: UILabel!
     
-    var course = loadPage()
+    var course = loadSampleCourse()
     override func viewDidLoad() {
         super.viewDidLoad()
         numLabel.text = course.course

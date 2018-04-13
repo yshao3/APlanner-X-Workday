@@ -36,7 +36,7 @@ class CourseTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return model[section].count()
+        return model[section]!.count()
     }
 
     
@@ -50,9 +50,9 @@ class CourseTableViewController: UITableViewController {
         
         // Fetches the appropriate meal for the data source layout.
         
-        let course = model[indexPath.section].courses[indexPath.row]
+        let course = model[indexPath.section]?.courses[indexPath.row]
         
-        cell.courseLabel.text = course.course
+        cell.courseLabel.text = course?.course
 //        cell.photoImageView.image = meal.photo
 //        cell.ratingControl.rating = meal.rating
         
@@ -60,7 +60,7 @@ class CourseTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return model[section].time
+        return model[section]?.time
     }
     
 
@@ -126,8 +126,8 @@ class CourseTableViewController: UITableViewController {
                 fatalError("The selected cell is not being displayed by the table")
             }
             
-            let selectedCourse = model[indexPath.section].courses[indexPath.row]
-            pageDetailViewController.course = selectedCourse
+            let selectedCourse = model[indexPath.section]?.courses[indexPath.row]
+            pageDetailViewController.course = selectedCourse!
             
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
