@@ -1,17 +1,16 @@
 //
-//  CourseTableViewController.swift
+//  SearchTableViewController.swift
 //  APlanner
 //
-//  Created by MLyu on 2018/4/11.
+//  Created by MLyu on 2018/4/16.
 //  Copyright © 2018 Team-I. All rights reserved.
 //
 
 import UIKit
-import os.log
 
-class CourseTableViewController: UITableViewController {
+class SearchTableViewController: UITableViewController {
     
-    var model = loadSemester()
+    var all_courses = Array(load_course().1.values)
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,36 +30,33 @@ class CourseTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return model.count
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return model[section]!.count()
+        return all_courses.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Table view cells are reused and should be dequeued using a cell identifier.
-        let cellIdentifier = "CourseTableViewCell"
+        let cellIdentifier = "SearchTableViewCell"
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? CourseTableViewCell  else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? SearchTableViewCell  else {
             fatalError("The dequeued cell is not an instance of MealTableViewCell.")
         }
         
         // Fetches the appropriate meal for the data source layout.
         
-        let course = model[indexPath.section]?.courses[indexPath.row]
+        let course = all_courses[indexPath.row]
         
-        cell.courseLabel.text = course?.course
-//        cell.photoImageView.image = meal.photo
-//        cell.ratingControl.rating = meal.rating
+        cell.courseNumSrch.text = course.course
+        cell.courseTitleSrch.text = course.title
+        //        cell.photoImageView.image = meal.photo
+        //        cell.ratingControl.rating = meal.rating
         
         return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return model[section]?.time
     }
     
 
@@ -109,42 +105,24 @@ class CourseTableViewController: UITableViewController {
         super.prepare(for: segue, sender: sender)
         
         switch(segue.identifier ?? "") {
+        case "ShowDetail":
+            guard let pageDetailViewController = segue.destination as? PageViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
             
-            case "AddItem":
-                //os_log("Adding a new meal.", log: OSLog.default, type: .debug)
-                guard segue.destination is SearchTableViewController else {
-                    fatalError("Unexpected destination: \(segue.destination)")
-                }
-                
-//                guard let selectedCourseCell = sender as? SearchTableViewCell else {
-//                    fatalError("Unexpected sender: \(String(describing: sender))")
-//                }
-//
-//                guard let indexPath = tableView.indexPath(for: selectedCourseCell) else {
-//                    fatalError("The selected cell is not being displayed by the table")
-//                }
-//
-//                let selectedCourse = model[indexPath.section]?.courses[indexPath.row]
-//                searchViewController.course = selectedCourse!
+            guard let selectedCourseCell = sender as? CourseTableViewCell else {
+                fatalError("Unexpected sender: \(String(describing: sender))")
+            }
             
-            case "ShowDetail":
-                guard let pageDetailViewController = segue.destination as? PageViewController else {
-                    fatalError("Unexpected destination: \(segue.destination)")
-                }
-                
-                guard let selectedCourseCell = sender as? CourseTableViewCell else {
-                    fatalError("Unexpected sender: \(String(describing: sender))")
-                }
-                
-                guard let indexPath = tableView.indexPath(for: selectedCourseCell) else {
-                    fatalError("The selected cell is not being displayed by the table")
-                }
-                
-                let selectedCourse = model[indexPath.section]?.courses[indexPath.row]
-                pageDetailViewController.course = selectedCourse!
+            guard let indexPath = tableView.indexPath(for: selectedCourseCell) else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
             
-            default:
-                fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
+            let selectedCourse = all_courses[indexPath.row]
+            pageDetailViewController.course = selectedCourse
+            
+        default:
+            fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
     }
  

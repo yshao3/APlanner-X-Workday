@@ -38,8 +38,8 @@ class Node {
         self.area = area
         self.notCurrent = []
         self.level = 0
-        self.pre_str = pre_str.split(separator: ",")
-        self.notCurrent_str = notCurrent_str.split(separator: ",")
+        self.pre_str = pre_str.split(separator: ";")
+        self.notCurrent_str = notCurrent_str.split(separator: ";")
     }
     
     public func setPre(pre: Array<Node>) {
