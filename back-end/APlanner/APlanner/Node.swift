@@ -22,8 +22,8 @@ class Node {
     var area: String
     var notCurrent: Array<Node>
     var level: Int
-    var pre_str: Array<Substring>
-    var notCurrent_str: Array<Substring>
+    var pre_str: Set<Substring>
+    var notCurrent_str: Set<Substring>
     
     init(course: String, title: String, desc: String, term: String, area: String, pre_str: String, notCurrent_str: String) {
         self.course = course
@@ -38,8 +38,24 @@ class Node {
         self.area = area
         self.notCurrent = []
         self.level = 0
-        self.pre_str = pre_str.split(separator: ";")
-        self.notCurrent_str = notCurrent_str.split(separator: ";")
+        self.pre_str = []//clean_pre(pre_str: pre_str)
+        self.notCurrent_str = []//clean_pre(pre_str: notCurrent_str)
+        self.pre_str = clean_pre(pre_str: pre_str)
+        self.notCurrent_str = clean_pre(pre_str: notCurrent_str)
+    }
+    //[CS2110;CS2800;CS3110,CS3111]
+    private func clean_pre(pre_str: String) -> Set<Substring> {
+        var pre_set: Set<Substring> = []
+        let array_pre = pre_str.split(separator: ";")
+        if array_pre.count != 0 {
+            for c in array_pre {
+                let c_array = c.split(separator: ",")
+                if c_array.count >= 1 {
+                    pre_set.insert(c_array[0])
+                }
+            }
+        }
+        return pre_set
     }
     
     public func setPre(pre: Array<Node>) {

@@ -18,11 +18,14 @@ func build_graph(course_list: Array<Node>, courseDict: [String: Node]) -> Array<
                 course.notCurrent.append(courseDict[String(cc)]!)
             }
         }
-        for pre in course.pre_str {
-            let c = courseDict[String(pre)]
-            course.inDegree += 1
-            c?.next.append(course)
+        if course.pre_str.count > 0 {
+            for pre in course.pre_str {
+                let c = courseDict[String(pre)]
+                course.inDegree += 1
+                c?.next.append(course)
+            }
         }
+        
         //res.append(course)
     }
     return course_list
@@ -84,14 +87,15 @@ func assignSemester(course_list: Array<Node>, start_year: Int, start_term: Strin
 }
 
 
-func load_course() -> (course_list: Array<Node>, courseDict: [String: Node]) {
-    var course_list: Array<Node> = []
+func load_course() -> [String: Node] {
     //let d = "..."
     let raw_data = loadJson(filename: "data")
     //print(raw_data)
+    var courseDict = [String: Node]()
     for str_array in raw_data! {
         let node = Node(course: str_array[0], title: str_array[1], desc: str_array[2], term: str_array[3], area: str_array[4], pre_str: str_array[5], notCurrent_str: str_array[6])
-        course_list.append(node)
+        //course_list.append(node)
+        courseDict[str_array[0]] = node
     }
 
 //    let A = Node(course: "CS1110", title: "Introduction to Computing Using Python", desc: "Programming and problem solving using Python. Emphasizes principles of software development, style, and testing. Topics include procedures and functions, iteration, recusion, arrays and vectors, strings, an operational model of procedure and function calls, algorithms, exceptions, object-oriented programming, and GUIs (graphical user interfaces). Weekly labs provide guided practice on the computer, with staff present to help. Assignments use graphics and GUIs to help develop fluency and understanding.", term: "Fall, Spring, Summer", area: "General", pre_str: "", notCurrent_str: "")
@@ -109,16 +113,12 @@ func load_course() -> (course_list: Array<Node>, courseDict: [String: Node]) {
 //    course_list.append(E)
 //    course_list.append(F)
 //    course_list.append(G)
-    
-    var courseDict = [String: Node]()
-    for c in course_list {
-        courseDict[c.course] = c
-    }
-    return (course_list, courseDict)
+    return courseDict
 }
 
 func test() -> [Int: Semester] {
-    let (course_list, courseDict) = load_course()
+    let courseDict = load_course()
+    let course_list = Array(courseDict.values)
     let courses = build_graph(course_list: course_list, courseDict: courseDict)
     let res = topology_sort(course_list: courses)
     return assignSemester(course_list: res, start_year: 2017, start_term: "Fall")

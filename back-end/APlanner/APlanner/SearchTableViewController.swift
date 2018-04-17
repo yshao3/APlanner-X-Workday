@@ -8,17 +8,24 @@
 
 import UIKit
 
-class SearchTableViewController: UITableViewController {
+class SearchTableViewController: UITableViewController, UISearchResultsUpdating {
     
-    var all_courses = Array(load_course().1.values)
+    let unfilter_courses = Array(load_course().values)
+    var all_courses: [Node]?
+    let searchController = UISearchController(searchResultsController: nil)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        all_courses = unfilter_courses
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        searchController.searchResultsUpdater = self
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        tableView.tableHeaderView = searchController.searchBar
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,7 +42,7 @@ class SearchTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return all_courses.count
+        return all_courses!.count
     }
 
     
@@ -49,7 +56,7 @@ class SearchTableViewController: UITableViewController {
         
         // Fetches the appropriate meal for the data source layout.
         
-        let course = all_courses[indexPath.row]
+        let course = all_courses![indexPath.row]
         
         cell.courseNumSrch.text = course.course
         cell.courseTitleSrch.text = course.title
@@ -59,7 +66,22 @@ class SearchTableViewController: UITableViewController {
         return cell
     }
     
-
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text, !searchText.isEmpty {
+            all_courses = unfilter_courses.filter { course in
+                return course.course.lowercased().contains(searchText.lowercased()) || course.title.lowercased().contains(searchText.lowercased())
+            }
+            
+        } else {
+            all_courses = unfilter_courses
+        }
+        tableView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        searchController.dismiss(animated: false, completion: nil)
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -105,12 +127,12 @@ class SearchTableViewController: UITableViewController {
         super.prepare(for: segue, sender: sender)
         
         switch(segue.identifier ?? "") {
-        case "ShowDetail":
+        case "SearchShowDetail":
             guard let pageDetailViewController = segue.destination as? PageViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             
-            guard let selectedCourseCell = sender as? CourseTableViewCell else {
+            guard let selectedCourseCell = sender as? SearchTableViewCell else {
                 fatalError("Unexpected sender: \(String(describing: sender))")
             }
             
@@ -118,7 +140,7 @@ class SearchTableViewController: UITableViewController {
                 fatalError("The selected cell is not being displayed by the table")
             }
             
-            let selectedCourse = all_courses[indexPath.row]
+            let selectedCourse = all_courses![indexPath.row]
             pageDetailViewController.course = selectedCourse
             
         default:
