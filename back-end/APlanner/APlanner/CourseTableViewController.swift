@@ -11,7 +11,7 @@ import os.log
 
 class CourseTableViewController: UITableViewController {
     
-    var model = loadSemester()
+    var model: [Int: Semester] = [Int: Semester]()
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,6 +20,7 @@ class CourseTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        model = loadSemester()
     }
 
     override func didReceiveMemoryWarning() {

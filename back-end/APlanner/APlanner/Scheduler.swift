@@ -20,9 +20,14 @@ func build_graph(course_list: Array<Node>, courseDict: [String: Node]) -> Array<
         }
         if course.pre_str.count > 0 {
             for pre in course.pre_str {
-                let c = courseDict[String(pre)]
-                course.inDegree += 1
-                c?.next.append(course)
+                let c = courseDict[pre]
+                if c != nil {
+                    course.pre.append(c!)
+                    course.inDegree += 1
+                    c?.next.append(course)
+                } else {
+                    print(pre)
+                }
             }
         }
         
@@ -113,6 +118,7 @@ func load_course() -> [String: Node] {
 //    course_list.append(E)
 //    course_list.append(F)
 //    course_list.append(G)
+    print(courseDict["cs 4110"]?.course ?? "not found")
     return courseDict
 }
 
@@ -145,6 +151,16 @@ func loadSemester() -> [Int: Semester] {
 //
 //    }
     return test()
+}
+
+func loadTerms(start_year: Int) -> [[String]]{
+    var years: [String] = []
+    var i = 0
+    while i < 4 {
+        years.append(String(start_year + i))
+        i += 1
+    }
+    return [["Fall", "Spring"], years]
 }
 
 func loadSampleCourse() -> Node {
