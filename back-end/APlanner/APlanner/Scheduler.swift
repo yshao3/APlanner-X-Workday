@@ -98,9 +98,9 @@ func load_course() -> [String: Node] {
     //print(raw_data)
     var courseDict = [String: Node]()
     for str_array in raw_data! {
-        let node = Node(course: str_array[0], title: str_array[1], desc: str_array[2], term: str_array[3], area: str_array[4], pre_str: str_array[5], notCurrent_str: str_array[6])
+        let node = Node(course: str_array[0].uppercased(), title: str_array[1], desc: str_array[2], term: str_array[3], area: str_array[4], pre_str: str_array[5].uppercased(), notCurrent_str: str_array[6].uppercased())
         //course_list.append(node)
-        courseDict[str_array[0]] = node
+        courseDict[str_array[0].uppercased()] = node
     }
 
 //    let A = Node(course: "CS1110", title: "Introduction to Computing Using Python", desc: "Programming and problem solving using Python. Emphasizes principles of software development, style, and testing. Topics include procedures and functions, iteration, recusion, arrays and vectors, strings, an operational model of procedure and function calls, algorithms, exceptions, object-oriented programming, and GUIs (graphical user interfaces). Weekly labs provide guided practice on the computer, with staff present to help. Assignments use graphics and GUIs to help develop fluency and understanding.", term: "Fall, Spring, Summer", area: "General", pre_str: "", notCurrent_str: "")
