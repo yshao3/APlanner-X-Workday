@@ -91,6 +91,22 @@ func assignSemester(course_list: Array<Node>, start_year: Int, start_term: Strin
     return semDict
 }
 
+func determSemester(start_year: Int, start_term: String, cur_year: String, cur_term: String) -> Int {
+    var start = Double(start_year)
+    if start_term == "Fall" {
+        start += 0.5
+    }
+    var cur = Double(cur_year)
+    if cur_term == "Fall" {
+        cur = cur! + 0.5
+    }
+    return Int((cur! - start) * 2.0)
+    
+}
+
+func addToSemester(cur_year: String, cur_term: String) -> Int {
+    return determSemester(start_year: 2017, start_term: "Fall", cur_year: cur_year, cur_term: cur_term)
+}
 
 func load_course() -> [String: Node] {
     //let d = "..."
@@ -130,6 +146,16 @@ func test() -> [Int: Semester] {
     return assignSemester(course_list: res, start_year: 2017, start_term: "Fall")
 }
 
+func test_2() -> [Int: Semester] {
+    let courseDict = load_course()
+    let course_list = Array(courseDict.values)
+    _ = build_graph(course_list: course_list, courseDict: courseDict)
+    
+    let selected_courses:[Node] = [courseDict["CS 1110"]!, courseDict["CS 2110"]!, courseDict["CS 2800"]!]
+    let res = topology_sort(course_list: selected_courses)
+    return assignSemester(course_list: res, start_year: 2017, start_term: "Fall")
+}
+
 
 func loadJson(filename fileName: String) -> [[String]]? {
     if let path = Bundle.main.path(forResource: fileName, ofType: "json") {
@@ -150,7 +176,7 @@ func loadSemester() -> [Int: Semester] {
 //    for (key, value) in data {
 //
 //    }
-    return test()
+    return test_2()
 }
 
 func loadTerms(start_year: Int) -> [[String]]{

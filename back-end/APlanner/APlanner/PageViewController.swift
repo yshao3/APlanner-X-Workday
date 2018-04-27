@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os.log
 
 class PageViewController: UIViewController {
 
@@ -24,22 +25,16 @@ class PageViewController: UIViewController {
     @IBOutlet weak var preTableView: UITableView!
     @IBOutlet weak var addToPlanner: UILabel!
     @IBOutlet weak var chooseTerm: UITextField!
-    @IBOutlet weak var toolbar: UIToolbar!
     
-    @IBAction func cancel(_ sender: UIBarButtonItem) {
-        chooseTerm.resignFirstResponder()
-    }
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
-    @IBAction func done(_ sender: UIBarButtonItem) {
-        chooseTerm.resignFirstResponder()
-    }
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
     
     var course = loadSampleCourse()
     var term = "Fall"
     var year = "2017"
 
     var comp: [[String]] = [[String]]()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         numLabel.text = course.course
@@ -63,6 +58,8 @@ class PageViewController: UIViewController {
         preTableView.delegate = self
         preTableView.dataSource = self
         
+        saveButton.isEnabled = false
+        
         preTableView.tableFooterView = UIView(frame: .zero)
         //scrollView.addSubview(preTableView)
         view.addSubview(scrollView)
@@ -79,6 +76,7 @@ class PageViewController: UIViewController {
         preTableView.frame = CGRect(x: preTableView.frame.origin.x, y: preTableView.frame.origin.y, width: preTableView.frame.size.width, height: preTableView.contentSize.height)
         //preTableView.reloadData()
     }
+    
     override func viewDidLayoutSubviews() {
         preTableView.frame = CGRect(x: preTableView.frame.origin.x, y: preTableView.frame.origin.y, width: preTableView.frame.size.width, height: preTableView.contentSize.height)
         preTableView.reloadData()
@@ -89,22 +87,28 @@ class PageViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    /*
+    
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
-    */
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        super.prepare(for: segue, sender: sender)
+        
+        // Configure the destination view controller only when the save button is pressed.
+        guard let button = sender as? UIBarButtonItem, button === saveButton else {
+            os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
+            return
+        }
+    }
 
 }
 extension PageViewController: UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     func pickUp(_ textField : UITextField){
         // UIPickerView
         textField.inputView = addToSchePicker
-        textField.inputAccessoryView = toolbar
         
     }
     //  set up pickers
@@ -126,6 +130,7 @@ extension PageViewController: UIPickerViewDelegate, UIPickerViewDataSource, UITe
             year = comp[component][row]
         }
         chooseTerm.text = term + " " + year
+        saveButton.isEnabled = true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

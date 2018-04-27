@@ -22,6 +22,10 @@
 		078500C72062FB290030A845 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 078500C62062FB290030A845 /* Assets.xcassets */; };
 		078500CA2062FB290030A845 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 078500C82062FB290030A845 /* LaunchScreen.storyboard */; };
 		078500D52062FB290030A845 /* APlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078500D42062FB290030A845 /* APlannerTests.swift */; };
+		078A827F2091280500E9D1C9 /* PlanCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078A827E2091280400E9D1C9 /* PlanCollectionViewCell.swift */; };
+		078A82812091281400E9D1C9 /* PlanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078A82802091281400E9D1C9 /* PlanTableViewCell.swift */; };
+		078A82832091282400E9D1C9 /* PlanTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078A82822091282400E9D1C9 /* PlanTableViewController.swift */; };
+		078A82852091283C00E9D1C9 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078A82842091283C00E9D1C9 /* Login.swift */; };
 		E411BF012086D14A00A516E2 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E411BF002086D14A00A516E2 /* Scheduler.swift */; };
 		E411BF072087C0A300A516E2 /* PlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E411BF062087C0A300A516E2 /* PlanViewController.swift */; };
 		E411BF092087C0B900A516E2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E411BF082087C0B900A516E2 /* LoginViewController.swift */; };
@@ -62,6 +66,10 @@
 		078500D02062FB290030A845 /* APlannerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APlannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		078500D42062FB290030A845 /* APlannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APlannerTests.swift; sourceTree = "<group>"; };
 		078500D62062FB290030A845 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		078A827E2091280400E9D1C9 /* PlanCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanCollectionViewCell.swift; sourceTree = "<group>"; };
+		078A82802091281400E9D1C9 /* PlanTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanTableViewCell.swift; sourceTree = "<group>"; };
+		078A82822091282400E9D1C9 /* PlanTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanTableViewController.swift; sourceTree = "<group>"; };
+		078A82842091283C00E9D1C9 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		E411BF002086D14A00A516E2 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
 		E411BF062087C0A300A516E2 /* PlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanViewController.swift; sourceTree = "<group>"; };
 		E411BF082087C0B900A516E2 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -120,6 +128,9 @@
 				07031BD8207ECEFC0098BD78 /* PageViewController.swift */,
 				07031BD6207E9BEE0098BD78 /* CourseTableViewController.swift */,
 				07031BD0207E92920098BD78 /* CourseTableViewCell.swift */,
+				078A82802091281400E9D1C9 /* PlanTableViewCell.swift */,
+				078A827E2091280400E9D1C9 /* PlanCollectionViewCell.swift */,
+				078A82822091282400E9D1C9 /* PlanTableViewController.swift */,
 				078500C62062FB290030A845 /* Assets.xcassets */,
 				078500C82062FB290030A845 /* LaunchScreen.storyboard */,
 				078500CB2062FB290030A845 /* Info.plist */,
@@ -131,6 +142,7 @@
 				07031BDA207ED3D50098BD78 /* Node.swift */,
 				07031BDE208250C00098BD78 /* CUcleaned.csv */,
 				E411BF062087C0A300A516E2 /* PlanViewController.swift */,
+				078A82842091283C00E9D1C9 /* Login.swift */,
 				E411BF082087C0B900A516E2 /* LoginViewController.swift */,
 				E411BF0A2087C0C700A516E2 /* ProfileController.swift */,
 				E411BF0C2087DAF800A516E2 /* User.swift */,
@@ -260,14 +272,18 @@
 				07031BDD2081632B0098BD78 /* Semester.swift in Sources */,
 				E411BF072087C0A300A516E2 /* PlanViewController.swift in Sources */,
 				07031BD9207ECEFC0098BD78 /* PageViewController.swift in Sources */,
+				078A82832091282400E9D1C9 /* PlanTableViewController.swift in Sources */,
 				074FF2DA208E8935005DD5CF /* PreReqTableViewCell.swift in Sources */,
 				E411BF0B2087C0C700A516E2 /* ProfileController.swift in Sources */,
 				E411BF0D2087DAF800A516E2 /* User.swift in Sources */,
+				078A82852091283C00E9D1C9 /* Login.swift in Sources */,
 				07031BD7207E9BEE0098BD78 /* CourseTableViewController.swift in Sources */,
 				07031BDB207ED3D50098BD78 /* Node.swift in Sources */,
 				07031BE52085318E0098BD78 /* SearchTableViewController.swift in Sources */,
+				078A827F2091280500E9D1C9 /* PlanCollectionViewCell.swift in Sources */,
 				07031BCD207C63B20098BD78 /* Deque-Optimized.swift in Sources */,
 				E411BF092087C0B900A516E2 /* LoginViewController.swift in Sources */,
+				078A82812091281400E9D1C9 /* PlanTableViewCell.swift in Sources */,
 				078500C02062FB290030A845 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

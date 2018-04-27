@@ -12,9 +12,10 @@ import os.log
 class CourseTableViewController: UITableViewController {
     
     var model: [Int: Semester] = [Int: Semester]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.leftBarButtonItem = editButtonItem
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -65,25 +66,26 @@ class CourseTableViewController: UITableViewController {
     }
     
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
+    
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+            model[indexPath.section]?.courses.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
@@ -99,6 +101,21 @@ class CourseTableViewController: UITableViewController {
         return true
     }
     */
+    @IBAction func unwindToScheduler(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? PageViewController {
+            let course = sourceViewController.course
+            let term = sourceViewController.term
+            let year = sourceViewController.year
+            
+            let section = addToSemester(cur_year: year, cur_term: term)
+            
+            // TODO: what if add to a semester which does not have a course???
+            let newIndexPath = IndexPath(row: (model[section]?.count())!, section: section)
+            
+            model[section]?.addCourse(course: course)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        }
+    }
 
     
     // MARK: - Navigation
@@ -113,23 +130,15 @@ class CourseTableViewController: UITableViewController {
             
             case "AddItem":
                 //os_log("Adding a new meal.", log: OSLog.default, type: .debug)
-                guard segue.destination is SearchTableViewController else {
+//                guard segue.destination is SearchTableViewController else {
+//                    fatalError("Unexpected destination: \(segue.destination)")
+//                }
+                guard segue.destination is UINavigationController else {
                     fatalError("Unexpected destination: \(segue.destination)")
                 }
-                
-//                guard let selectedCourseCell = sender as? SearchTableViewCell else {
-//                    fatalError("Unexpected sender: \(String(describing: sender))")
-//                }
-//
-//                guard let indexPath = tableView.indexPath(for: selectedCourseCell) else {
-//                    fatalError("The selected cell is not being displayed by the table")
-//                }
-//
-//                let selectedCourse = model[indexPath.section]?.courses[indexPath.row]
-//                searchViewController.course = selectedCourse!
             
             case "ShowDetail":
-                guard let pageDetailViewController = segue.destination as? PageViewController else {
+                guard let navController = segue.destination as? UINavigationController else {
                     fatalError("Unexpected destination: \(segue.destination)")
                 }
                 
@@ -142,6 +151,9 @@ class CourseTableViewController: UITableViewController {
                 }
                 
                 let selectedCourse = model[indexPath.section]?.courses[indexPath.row]
+                guard let pageDetailViewController = navController.viewControllers[0] as? PageViewController else {
+                    fatalError("Unexpected next view")
+                }
                 pageDetailViewController.course = selectedCourse!
             
             default:
