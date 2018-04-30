@@ -9,11 +9,8 @@
 import UIKit
 
 class PreReqTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var preLabel_1: UILabel!
-    @IBOutlet weak var preLabel_2: UILabel!
-    @IBOutlet weak var preLabel_3: UILabel!
     
+    @IBOutlet weak var collectionView: UICollectionView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,5 +22,15 @@ class PreReqTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+}
+extension PreReqTableViewCell {
+    func setCollectionViewDataSourceDelegate
+        <D: UICollectionViewDataSource & UICollectionViewDelegate>
+        (dataSourceDelegate: D, forRow row: Int) {
+        
+        collectionView.delegate = dataSourceDelegate
+        collectionView.dataSource = dataSourceDelegate
+        collectionView.tag = row
+        collectionView.reloadData()
+    }
 }

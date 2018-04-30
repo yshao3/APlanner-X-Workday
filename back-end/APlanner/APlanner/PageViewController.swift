@@ -35,8 +35,11 @@ class PageViewController: UIViewController {
     var year = "2017"
 
     var comp: [[String]] = [[String]]()
+    let courseDict = load_dict()
+    var course_name = ""
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         numLabel.text = course.course
         titleLabel.text = course.title
         descLabel.text = course.desc
@@ -70,6 +73,9 @@ class PageViewController: UIViewController {
 //        addToSchePicker.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20.0).isActive = true
 //        addToSchePicker.topAnchor.constraint(equalTo:self.view.topAnchor, constant: 500.0).isActive = true
         // Do any additional setup after loading the view.
+        if course_name != "" {
+            self.course = courseDict[course_name]!
+        }
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -102,7 +108,10 @@ class PageViewController: UIViewController {
             os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
             return
         }
+        
+        
     }
+
 
 }
 extension PageViewController: UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
@@ -149,32 +158,45 @@ extension PageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let tableViewCell = cell as? PreReqTableViewCell else { return }
+        tableViewCell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row)
+    }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PreReqTableViewCell", for: indexPath) as! PreReqTableViewCell
-        if course.all_pre.count > 0 {
-            if course.all_pre[indexPath.section].count > 2 {
-                cell.preLabel_3.text = course.all_pre[indexPath.section][2]
-            } else {
-                cell.preLabel_3.isHidden = true
-            }
-            
-            if course.all_pre[indexPath.section].count > 1 {
-                cell.preLabel_2.text = course.all_pre[indexPath.section][1]
-            } else {
-                cell.preLabel_2.isHidden = true
-            }
-                
-            if course.all_pre[indexPath.section].count > 0 {
-                cell.preLabel_1.text = course.all_pre[indexPath.section][0]
-            } else {
-                cell.preLabel_1.isHidden = true
-            }
-        }
+//        cell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row)
         return cell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "one of the following"
+        return "One of the following"
     }
+}
+
+extension PageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return course.all_pre[collectionView.tag].count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PreCollectionViewCell",
+                                                      for: indexPath as IndexPath) as! PreCollectionViewCell
+        cell.preCourse.text = course.all_pre[collectionView.tag][indexPath.item]
+        //print(cell.preCourse.text!)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let mainStoryboard: UIStoryboard = UIStoryboard(name:"Main", bundle: nil)
+        let desVC = mainStoryboard.instantiateViewController(withIdentifier:"PageViewController") as! PageViewController
+        let course_name = course.all_pre[collectionView.tag][indexPath.item]
+        // TODO: Can not reload dictionary every time !!!
+        
+        desVC.course = courseDict[course_name]!
+        self.navigationController?.pushViewController(desVC, animated: true)
+    }
+    
+    
 }

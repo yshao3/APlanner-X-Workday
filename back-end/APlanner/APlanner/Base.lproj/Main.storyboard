@@ -67,10 +67,10 @@
             </objects>
             <point key="canvasLocation" x="3033" y="-2543"/>
         </scene>
-        <!--Page View Controller-->
+        <!--PageViewController-->
         <scene sceneID="87M-45-ZZi">
             <objects>
-                <viewController id="LsT-zp-cVT" customClass="PageViewController" customModule="APlanner" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PageViewController" title="PageViewController" id="LsT-zp-cVT" customClass="PageViewController" customModule="APlanner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rBH-ky-FWN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="1201"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -157,41 +157,46 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="359" height="43.5"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="UHz-pa-Vhf">
-                                                                    <rect key="frame" x="15" y="10" width="329" height="24"/>
-                                                                    <subviews>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ca8-Xq-dhh">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="83" height="24"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                            <nil key="textColor"/>
-                                                                            <nil key="highlightedColor"/>
-                                                                        </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GKA-Fv-c9i">
-                                                                            <rect key="frame" x="123" y="0.0" width="83" height="24"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                            <nil key="textColor"/>
-                                                                            <nil key="highlightedColor"/>
-                                                                        </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IOF-Dd-7Z0">
-                                                                            <rect key="frame" x="246" y="0.0" width="83" height="24"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                            <nil key="textColor"/>
-                                                                            <nil key="highlightedColor"/>
-                                                                        </label>
-                                                                    </subviews>
-                                                                </stackView>
+                                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5ss-Pn-u9a">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="359" height="44"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ord-mc-DNu">
+                                                                        <size key="itemSize" width="100" height="50"/>
+                                                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                                    </collectionViewFlowLayout>
+                                                                    <cells>
+                                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PreCollectionViewCell" id="Y1f-kr-HQj" customClass="PreCollectionViewCell" customModule="APlanner" customModuleProvider="target">
+                                                                            <rect key="frame" x="0.0" y="-3" width="100" height="50"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                                                                <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
+                                                                                <autoresizingMask key="autoresizingMask"/>
+                                                                                <subviews>
+                                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GN0-r1-6ad">
+                                                                                        <rect key="frame" x="10" y="15" width="83" height="21"/>
+                                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                                        <nil key="textColor"/>
+                                                                                        <nil key="highlightedColor"/>
+                                                                                    </label>
+                                                                                </subviews>
+                                                                            </view>
+                                                                            <constraints>
+                                                                                <constraint firstItem="GN0-r1-6ad" firstAttribute="leading" secondItem="Y1f-kr-HQj" secondAttribute="leading" constant="10" id="CDL-6v-b5p"/>
+                                                                                <constraint firstItem="GN0-r1-6ad" firstAttribute="top" secondItem="Y1f-kr-HQj" secondAttribute="top" constant="15" id="Hg5-Xx-Dyw"/>
+                                                                            </constraints>
+                                                                            <connections>
+                                                                                <outlet property="preCourse" destination="GN0-r1-6ad" id="2Aj-aF-apT"/>
+                                                                            </connections>
+                                                                        </collectionViewCell>
+                                                                    </cells>
+                                                                </collectionView>
                                                             </subviews>
-                                                            <constraints>
-                                                                <constraint firstAttribute="bottom" secondItem="UHz-pa-Vhf" secondAttribute="bottom" constant="10" id="BVG-4b-YhB"/>
-                                                                <constraint firstItem="UHz-pa-Vhf" firstAttribute="top" secondItem="E8I-N6-DM3" secondAttribute="top" constant="10" id="QR9-zU-Sgo"/>
-                                                                <constraint firstItem="UHz-pa-Vhf" firstAttribute="leading" secondItem="E8I-N6-DM3" secondAttribute="leading" constant="15" id="f7q-Fv-Xia"/>
-                                                                <constraint firstAttribute="trailing" secondItem="UHz-pa-Vhf" secondAttribute="trailing" constant="15" id="w6o-DI-Fo6"/>
-                                                            </constraints>
                                                         </tableViewCellContentView>
                                                         <connections>
-                                                            <outlet property="preLabel_1" destination="Ca8-Xq-dhh" id="Xs7-2U-Hnt"/>
-                                                            <outlet property="preLabel_2" destination="GKA-Fv-c9i" id="Cu0-YF-mnK"/>
-                                                            <outlet property="preLabel_3" destination="IOF-Dd-7Z0" id="gwf-rU-vje"/>
+                                                            <outlet property="collectionView" destination="5ss-Pn-u9a" id="vuE-Ru-odd"/>
                                                         </connections>
                                                     </tableViewCell>
                                                 </prototypes>
@@ -307,7 +312,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zm9-2E-a2v" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="VeM-V5-ZO6" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="6108" y="-2140"/>
+            <point key="canvasLocation" x="6108" y="-2140.4797601199402"/>
         </scene>
         <!--Course List-->
         <scene sceneID="wFd-ww-fC5">

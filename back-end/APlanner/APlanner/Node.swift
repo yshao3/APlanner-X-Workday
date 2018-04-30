@@ -9,10 +9,10 @@
 import UIKit
 import Foundation
 
-class Node {
+class Node: NSObject, NSCoding {
     var course: String
     var title: String
-    var pre: Array<Node>
+    var pre: Array<Node> //???
     var inDegree: Int
     var next: Array<Node>
     var isValid: Bool
@@ -22,14 +22,36 @@ class Node {
     var area: String
     var notCurrent: Array<Node>
     var level: Int
-    var pre_str: Set<String>
-    var notCurrent_str: Set<String>
+    var pre_set: Set<String>
+    var notCurrent_set: Set<String>
     var all_pre: Array<Array<String>>
+    var pre_str: String
+    var notCurrent_str: String
+    var inScheduler: Bool
+    var credits: Int
     
-    init(course: String, title: String, desc: String, term: String, area: String, pre_str: String, notCurrent_str: String) {
+    //MARK: Archiving Paths
+    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("nodes")
+    
+    //MARK: Types
+    struct PropertyKey {
+        static let course = "course"
+        static let title = "title"
+        static let desc = "desc"
+        static let term = "term"
+        static let area = "area"
+        static let pre_str = "pre_str"
+        static let notCurrent_str = "notCurrent_str"
+        static let inScheduler = "inScheduler"
+        static let credits = "credits"
+        static let pre = "pre"
+    }
+    
+    init(course: String, title: String, desc: String, term: String, area: String, pre_str: String, notCurrent_str: String, inScheduler: Bool, credits: Int, pre: [Node]) {
         self.course = course
         self.title = title
-        self.pre = []
+        self.pre = pre
         self.inDegree = 0
         self.next = []
         self.isValid = true
@@ -39,12 +61,63 @@ class Node {
         self.area = area
         self.notCurrent = []
         self.level = 0
-        self.pre_str = []//clean_pre(pre_str: pre_str)
-        self.notCurrent_str = []//clean_pre(pre_str: notCurrent_str)
+        self.pre_str = pre_str//clean_pre(pre_str: pre_str)
+        self.notCurrent_str = notCurrent_str//clean_pre(pre_str: notCurrent_str)
         self.all_pre = []
-        self.pre_str = clean_pre(pre_str: pre_str)
-        self.notCurrent_str = clean_pre(pre_str: notCurrent_str)
-        self.all_pre = load_all_pre(pre_str: pre_str)
+        self.pre_set = []
+        self.notCurrent_set = []
+        self.inScheduler = inScheduler
+        self.credits = credits
+    }
+    
+    //MARK: NSCoding
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(course, forKey: PropertyKey.course)
+        aCoder.encode(title, forKey: PropertyKey.title)
+        aCoder.encode(desc, forKey: PropertyKey.desc)
+        aCoder.encode(term, forKey: PropertyKey.term)
+        aCoder.encode(area, forKey: PropertyKey.area)
+        aCoder.encode(pre_str, forKey: PropertyKey.pre_str)
+        aCoder.encode(notCurrent_str, forKey: PropertyKey.notCurrent_str)
+        aCoder.encode(inScheduler, forKey: PropertyKey.inScheduler)
+        aCoder.encode(credits, forKey: PropertyKey.credits)
+        aCoder.encode(pre, forKey: PropertyKey.pre)
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        
+        // The name is required. If we cannot decode a name string, the initializer should fail.
+        let course = aDecoder.decodeObject(forKey: PropertyKey.course) as? String
+        
+        // Because photo is an optional property of Meal, just use conditional cast.
+        let title = aDecoder.decodeObject(forKey: PropertyKey.title) as? String
+        
+        let desc = aDecoder.decodeObject(forKey: PropertyKey.desc) as? String
+        
+        let term = aDecoder.decodeObject(forKey: PropertyKey.term) as? String
+        
+        // Because photo is an optional property of Meal, just use conditional cast.
+        let area = aDecoder.decodeObject(forKey: PropertyKey.area) as? String
+        
+        let pre_str = aDecoder.decodeObject(forKey: PropertyKey.pre_str) as? String
+        
+        let notCurrent_str = aDecoder.decodeObject(forKey: PropertyKey.notCurrent_str) as? String
+        
+        let inScheduler = aDecoder.decodeBool(forKey: PropertyKey.inScheduler)
+        
+        let credits = aDecoder.decodeInteger(forKey: PropertyKey.credits)
+        
+        let pre = aDecoder.decodeObject(forKey: PropertyKey.pre) as? [Node]
+        
+        // Must call designated initializer.
+        self.init(course: course!, title: title!, desc: desc!, term: term!, area: area!, pre_str: pre_str!, notCurrent_str: notCurrent_str!, inScheduler: inScheduler, credits: credits, pre: pre!)
+    }
+    
+    public func after_init() {
+        self.pre_set = self.clean_pre(pre_str: self.pre_str)
+        self.notCurrent_set = self.clean_pre(pre_str: self.notCurrent_str)
+        self.all_pre = self.load_all_pre(pre_str: self.pre_str)
     }
     //[CS2110;CS2800;CS3110,CS3111]
     private func clean_pre(pre_str: String) -> Set<String> {
@@ -78,11 +151,15 @@ class Node {
         
     }
     
+    public func setInScheduler(inScheduler: Bool) {
+        self.inScheduler = inScheduler
+    }
+    
     public func setPre(pre: Array<Node>) {
         self.pre = pre
     }
     
-    public var hashValue: Int {
+    override public var hashValue: Int {
         return course.hashValue
     }
     

@@ -21,7 +21,14 @@ class CourseTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        // Load any saved meals, otherwise load sample data.
+//        if let saveModel = loadSemester_disk() {
+//            model = saveModel
+//        } else {
+//            model = loadSemester()
+//        }
         model = loadSemester()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -80,6 +87,7 @@ class CourseTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             model[indexPath.section]?.courses.remove(at: indexPath.row)
+            saveSemester()
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -114,6 +122,7 @@ class CourseTableViewController: UITableViewController {
             
             model[section]?.addCourse(course: course)
             tableView.insertRows(at: [newIndexPath], with: .automatic)
+            saveSemester()
         }
     }
 
@@ -159,6 +168,19 @@ class CourseTableViewController: UITableViewController {
             default:
                 fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
+    }
+    
+    private func saveSemester() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(model, toFile: Semester.ArchiveURL.path)
+        if isSuccessfulSave {
+            os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
+        } else {
+            os_log("Failed to save meals...", log: OSLog.default, type: .error)
+        }
+    }
+    
+    private func loadSemester_disk() -> [Int: Semester]?  {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: Semester.ArchiveURL.path) as? [Int: Semester]
     }
  
 

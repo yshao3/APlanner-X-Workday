@@ -13,13 +13,13 @@ import Foundation
 func build_graph(course_list: Array<Node>, courseDict: [String: Node]) -> Array<Node> {
     //var res: Array<Node> = []
     for course in course_list {
-        if course.notCurrent_str.count != 0 {
-            for cc in course.notCurrent_str {
+        if course.notCurrent_set.count != 0 {
+            for cc in course.notCurrent_set {
                 course.notCurrent.append(courseDict[String(cc)]!)
             }
         }
-        if course.pre_str.count > 0 {
-            for pre in course.pre_str {
+        if course.pre_set.count > 0 {
+            for pre in course.pre_set {
                 let c = courseDict[pre]
                 if c != nil {
                     course.pre.append(c!)
@@ -84,7 +84,7 @@ func assignSemester(course_list: Array<Node>, start_year: Int, start_term: Strin
             let sth = c.level + flag
             let year = start_year + sth/2
             let str = dict[c.level % 2]! + " \(year)"
-            semDict[c.level] = Semester(time: str)
+            semDict[c.level] = Semester(time: str, courses: [])
         }
         semDict[c.level]?.addCourse(course: c)
     }
@@ -114,8 +114,9 @@ func load_course() -> [String: Node] {
     //print(raw_data)
     var courseDict = [String: Node]()
     for str_array in raw_data! {
-        let node = Node(course: str_array[0].uppercased(), title: str_array[1], desc: str_array[2], term: str_array[3], area: str_array[4], pre_str: str_array[5].uppercased(), notCurrent_str: str_array[6].uppercased())
+        let node = Node(course: str_array[0].uppercased(), title: str_array[1], desc: str_array[2], term: str_array[3], area: str_array[4], pre_str: str_array[5].uppercased(), notCurrent_str: str_array[6].uppercased(), inScheduler: false, credits: 3, pre: [])
         //course_list.append(node)
+        node.after_init()
         courseDict[str_array[0].uppercased()] = node
     }
 
@@ -156,6 +157,14 @@ func test_2() -> [Int: Semester] {
     return assignSemester(course_list: res, start_year: 2017, start_term: "Fall")
 }
 
+func load_dict() -> [String: Node] {
+    let courseDict = load_course()
+    let course_list = Array(courseDict.values)
+    _ = build_graph(course_list: course_list, courseDict: courseDict)
+    
+    return courseDict
+}
+
 
 func loadJson(filename fileName: String) -> [[String]]? {
     if let path = Bundle.main.path(forResource: fileName, ofType: "json") {
@@ -190,5 +199,5 @@ func loadTerms(start_year: Int) -> [[String]]{
 }
 
 func loadSampleCourse() -> Node {
-    return Node(course: "CS2800", title: "Discrete Structures", desc: "Covers the mathematics that underlies most of computer science. Topics include mathematical induction; logical proof; propositional and predicate calculus; combinatorics and discrete mathematics; some basic elements of basic probability theory; basic number theory; sets, functions, and relations; graphs; and finite-state machines. These topics are discussed in the context of applications to many areas of computer science, such as the RSA cryptosystem and web searching.", term: "Fall, Spring", area: "General", pre_str: "CS1110", notCurrent_str: "")
+    return Node(course: "CS2800", title: "Discrete Structures", desc: "Covers the mathematics that underlies most of computer science. Topics include mathematical induction; logical proof; propositional and predicate calculus; combinatorics and discrete mathematics; some basic elements of basic probability theory; basic number theory; sets, functions, and relations; graphs; and finite-state machines. These topics are discussed in the context of applications to many areas of computer science, such as the RSA cryptosystem and web searching.", term: "Fall, Spring", area: "General", pre_str: "CS1110", notCurrent_str: "", inScheduler: false, credits: 3, pre: [])
 }

@@ -14,9 +14,9 @@ class Semester: NSObject, NSCoding {
     var time: String
     var courses: Array<Node>
     
-    init(time: String) {
+    init(time: String, courses: Array<Node>) {
         self.time = time
-        self.courses = []
+        self.courses = courses
     }
     
     //MARK: Types
@@ -25,13 +25,17 @@ class Semester: NSObject, NSCoding {
         static let time = "time"
         static let courses = "courses"
     }
+    //MARK: Archiving Paths
+    
+    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("semesters")
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(time, forKey: PropertyKey.time)
         aCoder.encode(courses, forKey: PropertyKey.courses)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required convenience init?(coder aDecoder: NSCoder) {
         guard let time = aDecoder.decodeObject(forKey: PropertyKey.time) as? String else {
             os_log("Unable to decode the name for a Meal object.", log: OSLog.default, type: .debug)
             return nil
@@ -40,11 +44,8 @@ class Semester: NSObject, NSCoding {
             os_log("Unable to decode the name for a Meal object.", log: OSLog.default, type: .debug)
             return nil
         }
-        self.init(time: time)
-
+        self.init(time: time, courses: courses)
     }
-    
-
     
     public func addCourse(course: Node) {
         self.courses.append(course)
