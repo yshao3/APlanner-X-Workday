@@ -25,17 +25,15 @@ class PageViewController: UIViewController {
     @IBOutlet weak var preTableView: UITableView!
     @IBOutlet weak var addToPlanner: UILabel!
     @IBOutlet weak var chooseTerm: UITextField!
+    @IBOutlet weak var addButton: UIButton!
     
-    @IBOutlet weak var saveButton: UIBarButtonItem!
-    
-    @IBOutlet weak var cancelButton: UIBarButtonItem!
     
     var course = loadSampleCourse()
     var term = "Fall"
     var year = "2017"
 
     var comp: [[String]] = [[String]]()
-    let courseDict = load_dict()
+    var courseDict = [String: Node]()//load_dict()
     var course_name = ""
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +44,13 @@ class PageViewController: UIViewController {
         termLabel.text = course.term
         whenLabel.text = "Availabe"
         preLabel.text = "Pre-requisite"
-        fillLabel.text = "Filled"
+        if check_pre_filled(node: course) {
+            fillLabel.text = "Fullfilled"
+        } else {
+            fillLabel.text = "Unfullfilled"
+            fillLabel.textColor = UIColor.red
+        }
+        
         areaLabel.text = "Academic Area"
         tagLabel.text = course.area
         addToPlanner.text = "Add to planner"
@@ -61,8 +65,12 @@ class PageViewController: UIViewController {
         preTableView.delegate = self
         preTableView.dataSource = self
         
-        saveButton.isEnabled = false
-        
+//        saveButton.isEnabled = false
+        if course.inScheduler {
+            addButton.setTitle("Remove from Scheduler", for: .normal)
+        } else {
+            addButton.setTitle("Add to Scheduler", for: .normal)
+        }
         preTableView.tableFooterView = UIView(frame: .zero)
         //scrollView.addSubview(preTableView)
         view.addSubview(scrollView)
@@ -76,11 +84,27 @@ class PageViewController: UIViewController {
         if course_name != "" {
             self.course = courseDict[course_name]!
         }
+        //self.navigationController?.navigationBar.barTintColor = UIColor.white
+        if let dict = loadDict_disk() {
+            courseDict = dict
+        } else {
+            courseDict = load_dict()
+            saveDict_disk(courseDict: courseDict)
+        }
+        
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        preTableView.frame = CGRect(x: preTableView.frame.origin.x, y: preTableView.frame.origin.y, width: preTableView.frame.size.width, height: preTableView.contentSize.height)
+//        preTableView.frame = CGRect(x: preTableView.frame.origin.x, y: preTableView.frame.origin.y, width: preTableView.frame.size.width, height: preTableView.contentSize.height)
         //preTableView.reloadData()
+        //self.navigationController?.navigationBar.barTintColor = UIColor.white
+        if check_pre_filled(node: course) {
+            fillLabel.text = "Fullfilled"
+        } else {
+            fillLabel.text = "Unfullfilled"
+            fillLabel.textColor = UIColor.red
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -93,23 +117,23 @@ class PageViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
     // MARK: - Navigation
-    @IBAction func cancel(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
-    }
+//    @IBAction func cancel(_ sender: UIBarButtonItem) {
+//        dismiss(animated: true, completion: nil)
+//    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         super.prepare(for: segue, sender: sender)
         
         // Configure the destination view controller only when the save button is pressed.
-        guard let button = sender as? UIBarButtonItem, button === saveButton else {
+//        guard let button = sender as? UIBarButtonItem, button === saveButton else {
+//            os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
+//            return
+//        }
+        guard let button2 = sender as? UIButton, button2 === addButton else {
             os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
             return
         }
-        
-        
     }
 
 
@@ -139,7 +163,8 @@ extension PageViewController: UIPickerViewDelegate, UIPickerViewDataSource, UITe
             year = comp[component][row]
         }
         chooseTerm.text = term + " " + year
-        saveButton.isEnabled = true
+        //saveButton.isEnabled = true
+//        addButton.isEnabled = true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -194,9 +219,15 @@ extension PageViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let course_name = course.all_pre[collectionView.tag][indexPath.item]
         // TODO: Can not reload dictionary every time !!!
         
-        desVC.course = courseDict[course_name]!
-        self.navigationController?.pushViewController(desVC, animated: true)
+        if courseDict[course_name] != nil {
+            desVC.course = courseDict[course_name]!
+            self.navigationController?.pushViewController(desVC, animated: true)
+        }
     }
     
     
 }
+
+
+// #8ace5c green: 138, 206, 92
+// add button #05c2c8 red: 255, 79, 79, 1

@@ -8,11 +8,12 @@
 import UIKit
 import Foundation
 //import CSV
+import os.log
 
 
-func build_graph(course_list: Array<Node>, courseDict: [String: Node]) -> Array<Node> {
+func build_graph(courseDict: [String: Node]) -> [String: Node] {
     //var res: Array<Node> = []
-    for course in course_list {
+    for (_, course) in courseDict {
         if course.notCurrent_set.count != 0 {
             for cc in course.notCurrent_set {
                 course.notCurrent.append(courseDict[String(cc)]!)
@@ -20,20 +21,17 @@ func build_graph(course_list: Array<Node>, courseDict: [String: Node]) -> Array<
         }
         if course.pre_set.count > 0 {
             for pre in course.pre_set {
-                let c = courseDict[pre]
-                if c != nil {
-                    course.pre.append(c!)
+                if let c = courseDict[pre] {
+                    course.pre.append(c)
                     course.inDegree += 1
-                    c?.next.append(course)
+                    c.next.append(course)
                 } else {
                     print(pre)
                 }
             }
         }
-        
-        //res.append(course)
     }
-    return course_list
+    return courseDict
 }
 
 func topology_sort(course_list: Array<Node>) -> Array<Node> {
@@ -80,6 +78,7 @@ func assignSemester(course_list: Array<Node>, start_year: Int, start_term: Strin
         flag = 0
     }
     for c in course_list {
+        c.inScheduler = true
         if semDict[c.level] == nil {
             let sth = c.level + flag
             let year = start_year + sth/2
@@ -119,52 +118,44 @@ func load_course() -> [String: Node] {
         node.after_init()
         courseDict[str_array[0].uppercased()] = node
     }
-
-//    let A = Node(course: "CS1110", title: "Introduction to Computing Using Python", desc: "Programming and problem solving using Python. Emphasizes principles of software development, style, and testing. Topics include procedures and functions, iteration, recusion, arrays and vectors, strings, an operational model of procedure and function calls, algorithms, exceptions, object-oriented programming, and GUIs (graphical user interfaces). Weekly labs provide guided practice on the computer, with staff present to help. Assignments use graphics and GUIs to help develop fluency and understanding.", term: "Fall, Spring, Summer", area: "General", pre_str: "", notCurrent_str: "")
-//    let B = Node(course: "CS2110", title: "OO Programming and Data Structures", desc: "CS 2110 (cross-listed as ENGRD 2100) is an intermediate-level programming course and an introduction to computer science. Topics include program design and development, debugging and testing, object-oriented programming, proofs of correctness, complexity analysis, recursion, commonly used data structures, trees, graph algorithms, and abstract data types. Java is the principal programming language. ", term: "Fall, Spring", area: "General", pre_str: "CS1110", notCurrent_str: "")
-//    //let B = Node(course: "B", title: "Operating Systems", desc: d, term: "Fall, Spring", area: "Core, System")
-//    let C = Node(course: "CS2800", title: "Discrete Structures", desc: "Covers the mathematics that underlies most of computer science. Topics include mathematical induction; logical proof; propositional and predicate calculus; combinatorics and discrete mathematics; some basic elements of basic probability theory; basic number theory; sets, functions, and relations; graphs; and finite-state machines. These topics are discussed in the context of applications to many areas of computer science, such as the RSA cryptosystem and web searching.", term: "Fall, Spring", area: "General", pre_str: "CS1110", notCurrent_str: "")
-//    let D = Node(course: "CS3110", title: "Data Structures and Functional Programming", desc: "Advanced programming course that emphasizes functional programming techniques and data structures. Programming topics include recursive and higher-order procedures, models of programming language evaluation and compilation, type systems, and polymorphism. Data structures and algorithms covered include graph algorithms, balanced trees, memory heaps, and garbage collection. Also covers techniques for analyzing program performance and correctness.", term: "Fall, Spring", area: "Core", pre_str: "CS2110,CS2800", notCurrent_str: "CS3410")
-//    let E = Node(course: "CS3410", title: "Computer System Organization and Programming", desc: "Introduction to computer organization, systems programming and the hardware/ software interface. Topics include instruction sets, computer arithmetic, datapath design, data formats, addressing modes, memory hierarchies including caches and virtual memory, I/O devices, bus-based I/O systems, and multicore architectures. Students learn assembly language programming and design a pipelined RISC processor.", term: "Fall, Spring", area: "Core", pre_str: "CS2110", notCurrent_str: "CS3110")
-//    let F = Node(course: "CS4410", title: "Operating System", desc: "Introduction to the design of systems programs, with emphasis on multiprogrammed operating systems. Topics include concurrency, synchronization, deadlocks, memory management, protection, input-output methods, networking, file systems and security. The impact of network and distributed computing environments on operating systems is also discussed.", term: "Fall, spring, summer", area: "Core, System", pre_str: "CS3410", notCurrent_str: "")
-//    let G = Node(course: "CS4820", title: "Introduction to Analysis of Algorithms", desc: "Develops techniques used in the design and analysis of algorithms, with an emphasis on problems arising in computing applications. Example applications are drawn from systems and networks, artificial intelligence, computer vision, data mining, and computational biology. This course covers four major algorithm design techniques (greedy algorithms, divide-and-conquer, dynamic programming, and network flow), undecidability and NP-completeness, and algorithmic techniques for intractable problems (including identification of structured special cases , approximation algorithms, local search heuristics, and online algorithms).", term: "Fall, spring, summer", area: "Core, System", pre_str: "CS2800,CS3110", notCurrent_str: "")
-//    course_list.append(A)
-//    course_list.append(B)
-//    course_list.append(C)
-//    course_list.append(D)
-//    course_list.append(E)
-//    course_list.append(F)
-//    course_list.append(G)
-    print(courseDict["cs 4110"]?.course ?? "not found")
+    //print(courseDict["cs 4110"]?.course ?? "not found")
     return courseDict
 }
 
-func test() -> [Int: Semester] {
-    let courseDict = load_course()
-    let course_list = Array(courseDict.values)
-    let courses = build_graph(course_list: course_list, courseDict: courseDict)
-    let res = topology_sort(course_list: courses)
-    return assignSemester(course_list: res, start_year: 2017, start_term: "Fall")
-}
+//func test() -> [Int: Semester] {
+//    let courseDict = load_course()
+//    let course_list = Array(courseDict.values)
+//    let courses = build_graph(course_list: course_list, courseDict: courseDict)
+//    let res = topology_sort(course_list: courses)
+//    return assignSemester(course_list: res, start_year: 2017, start_term: "Fall")
+//}
 
 func test_2() -> [Int: Semester] {
-    let courseDict = load_course()
-    let course_list = Array(courseDict.values)
-    _ = build_graph(course_list: course_list, courseDict: courseDict)
-    
+    var courseDict = load_course()
+    courseDict = build_graph(courseDict: courseDict)
     let selected_courses:[Node] = [courseDict["CS 1110"]!, courseDict["CS 2110"]!, courseDict["CS 2800"]!]
-    let res = topology_sort(course_list: selected_courses)
-    return assignSemester(course_list: res, start_year: 2017, start_term: "Fall")
+    //let res = topology_sort(course_list: selected_courses)
+    return assignSemester(course_list: selected_courses, start_year: 2017, start_term: "Fall")
 }
 
 func load_dict() -> [String: Node] {
-    let courseDict = load_course()
-    let course_list = Array(courseDict.values)
-    _ = build_graph(course_list: course_list, courseDict: courseDict)
-    
+    var courseDict = load_course()
+    courseDict = build_graph(courseDict: courseDict)
     return courseDict
 }
 
+func saveDict_disk(courseDict dict: [String: Node]) {
+    let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(dict, toFile: Node.ArchiveURL.path)
+    if isSuccessfulSave {
+        os_log("Dictionary successfully saved.", log: OSLog.default, type: .debug)
+    } else {
+        os_log("Failed to save dictionary...", log: OSLog.default, type: .error)
+    }
+}
+
+func loadDict_disk() -> [String: Node]?  {
+    return NSKeyedUnarchiver.unarchiveObject(withFile: Node.ArchiveURL.path) as? [String: Node]
+}
 
 func loadJson(filename fileName: String) -> [[String]]? {
     if let path = Bundle.main.path(forResource: fileName, ofType: "json") {
@@ -173,6 +164,15 @@ func loadJson(filename fileName: String) -> [[String]]? {
     }
     return nil
     
+}
+
+func check_pre_filled(node: Node) -> Bool {
+    for c in node.pre {
+        if !c.inScheduler {
+            return false
+        }
+    }
+    return true
 }
 
 //loadJson(filename: "data")

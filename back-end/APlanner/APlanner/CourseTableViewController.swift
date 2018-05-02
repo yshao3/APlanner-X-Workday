@@ -12,10 +12,12 @@ import os.log
 class CourseTableViewController: UITableViewController {
     
     var model: [Int: Semester] = [Int: Semester]()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        //edit = editButtonItem
         navigationItem.leftBarButtonItem = editButtonItem
+        editButtonItem.tintColor = UIColor.white
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -28,9 +30,14 @@ class CourseTableViewController: UITableViewController {
 //            model = loadSemester()
 //        }
         model = loadSemester()
+        //self.navigationController?.navigationBar.barTintColor = UIColor.green
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //preTableView.reloadData()
+        //self.navigationController?.navigationBar.barTintColor = UIColor.green
         
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -62,8 +69,13 @@ class CourseTableViewController: UITableViewController {
         let course = model[indexPath.section]?.courses[indexPath.row]
         
         cell.courseLabel.text = course?.course
+        cell.titleLabel.text = course?.title
+        cell.course = course!
 //        cell.photoImageView.image = meal.photo
 //        cell.ratingControl.rating = meal.rating
+        if !check_pre_filled(node: course!) {
+            cell.toggleButton.setImage(#imageLiteral(resourceName: "orange_warning_icon"), for: .normal)
+        }
         
         return cell
     }
@@ -79,8 +91,6 @@ class CourseTableViewController: UITableViewController {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    
-
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -114,14 +124,46 @@ class CourseTableViewController: UITableViewController {
             let course = sourceViewController.course
             let term = sourceViewController.term
             let year = sourceViewController.year
-            
-            let section = addToSemester(cur_year: year, cur_term: term)
-            
-            // TODO: what if add to a semester which does not have a course???
-            let newIndexPath = IndexPath(row: (model[section]?.count())!, section: section)
-            
-            model[section]?.addCourse(course: course)
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            var i = 0
+            var j = 0
+            var flag = 0
+            for (key, sem) in model {
+                i = 0
+                for c in sem.courses {
+                    if course.course == c.course {
+                        flag = 1
+                        j = key
+                        break
+                    }
+                    i += 1
+                }
+                if flag == 1 {
+                    break
+                }
+            }
+            if flag == 1 {
+                model[j]?.courses.remove(at: i)
+                course.inScheduler = false
+                print("Delete course" + course.course)
+                let indexPath = IndexPath(row: i, section: j)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            } else {
+                let section = addToSemester(cur_year: year, cur_term: term)
+                print(section)
+                if section >= model.count {
+                    tableView.beginUpdates()
+                    tableView.insertSections(IndexSet(integer: section), with: .automatic)
+                    model[section] = Semester(time: term + " " + year, courses: [])
+                    tableView.endUpdates()
+                }
+                
+                // TODO: what if add to a semester which does not have a course???
+                let newIndexPath = IndexPath(row: (model[section]?.count())!, section: section)
+                course.inScheduler = true
+                model[section]?.addCourse(course: course)
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+                print("Add course" + course.course)
+            }
             saveSemester()
         }
     }
@@ -139,15 +181,21 @@ class CourseTableViewController: UITableViewController {
             
             case "AddItem":
                 //os_log("Adding a new meal.", log: OSLog.default, type: .debug)
-//                guard segue.destination is SearchTableViewController else {
-//                    fatalError("Unexpected destination: \(segue.destination)")
-//                }
-                guard segue.destination is UINavigationController else {
+                guard segue.destination is SearchTableViewController else {
                     fatalError("Unexpected destination: \(segue.destination)")
                 }
+//                guard segue.destination is UINavigationController else {
+//                    fatalError("Unexpected destination: \(segue.destination)")
+//                }
             
             case "ShowDetail":
-                guard let navController = segue.destination as? UINavigationController else {
+//                guard let navController = segue.destination as? UINavigationController else {
+//                    fatalError("Unexpected destination: \(segue.destination)")
+//                }
+//                guard let pageDetailViewController = navController.viewControllers[0] as? PageViewController else {
+//                    fatalError("Unexpected next view")
+//                }
+                guard let pageDetailViewController = segue.destination as? PageViewController else {
                     fatalError("Unexpected destination: \(segue.destination)")
                 }
                 
@@ -160,9 +208,7 @@ class CourseTableViewController: UITableViewController {
                 }
                 
                 let selectedCourse = model[indexPath.section]?.courses[indexPath.row]
-                guard let pageDetailViewController = navController.viewControllers[0] as? PageViewController else {
-                    fatalError("Unexpected next view")
-                }
+                
                 pageDetailViewController.course = selectedCourse!
             
             default:
@@ -173,7 +219,7 @@ class CourseTableViewController: UITableViewController {
     private func saveSemester() {
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(model, toFile: Semester.ArchiveURL.path)
         if isSuccessfulSave {
-            os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
+            os_log("Model successfully saved.", log: OSLog.default, type: .debug)
         } else {
             os_log("Failed to save meals...", log: OSLog.default, type: .error)
         }
@@ -182,6 +228,4 @@ class CourseTableViewController: UITableViewController {
     private func loadSemester_disk() -> [Int: Semester]?  {
         return NSKeyedUnarchiver.unarchiveObject(withFile: Semester.ArchiveURL.path) as? [Int: Semester]
     }
- 
-
 }

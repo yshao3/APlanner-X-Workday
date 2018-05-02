@@ -12,7 +12,7 @@ import Foundation
 class Node: NSObject, NSCoding {
     var course: String
     var title: String
-    var pre: Array<Node> //???
+    var pre: [Node] //???
     var inDegree: Int
     var next: Array<Node>
     var isValid: Bool
@@ -82,7 +82,8 @@ class Node: NSObject, NSCoding {
         aCoder.encode(notCurrent_str, forKey: PropertyKey.notCurrent_str)
         aCoder.encode(inScheduler, forKey: PropertyKey.inScheduler)
         aCoder.encode(credits, forKey: PropertyKey.credits)
-        aCoder.encode(pre, forKey: PropertyKey.pre)
+        //aCoder.encode(pre, forKey: PropertyKey.pre)
+        aCoder.encode(NSKeyedArchiver.archivedData(withRootObject: pre), forKey: PropertyKey.pre)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -108,7 +109,9 @@ class Node: NSObject, NSCoding {
         
         let credits = aDecoder.decodeInteger(forKey: PropertyKey.credits)
         
-        let pre = aDecoder.decodeObject(forKey: PropertyKey.pre) as? [Node]
+        // let pre = aDecoder.decodeObject(forKey: PropertyKey.pre) as? [Node]
+        
+        let pre = NSKeyedUnarchiver.unarchiveObject(with: (aDecoder.decodeObject(forKey: PropertyKey.pre) as! NSData) as Data) as? [Node]
         
         // Must call designated initializer.
         self.init(course: course!, title: title!, desc: desc!, term: term!, area: area!, pre_str: pre_str!, notCurrent_str: notCurrent_str!, inScheduler: inScheduler, credits: credits, pre: pre!)

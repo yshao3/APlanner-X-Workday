@@ -120,9 +120,9 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating 
     
     // MARK: - Navigation
 
-    @IBAction func cancel(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
-    }
+//    @IBAction func cancel(_ sender: UIBarButtonItem) {
+//        dismiss(animated: true, completion: nil)
+//    }
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
@@ -131,15 +131,15 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating 
         
         switch(segue.identifier ?? "") {
         case "SearchShowDetail":
-            guard let navController = segue.destination as? UINavigationController else {
-                fatalError("Unexpected destination: \(segue.destination)")
-            }
-            guard let pageDetailViewController = navController.viewControllers[0] as? PageViewController else {
-                fatalError("Unexpected next view")
-            }
-//            guard let pageDetailViewController = segue.destination as? PageViewController else {
+//            guard let navController = segue.destination as? UINavigationController else {
 //                fatalError("Unexpected destination: \(segue.destination)")
 //            }
+//            guard let pageDetailViewController = navController.viewControllers[0] as? PageViewController else {
+//                fatalError("Unexpected next view")
+//            }
+            guard let pageDetailViewController = segue.destination as? PageViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
             
             guard let selectedCourseCell = sender as? SearchTableViewCell else {
                 fatalError("Unexpected sender: \(String(describing: sender))")

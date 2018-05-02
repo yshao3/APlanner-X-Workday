@@ -11,19 +11,32 @@ import UIKit
 class CourseTableViewCell: UITableViewCell {
 
     @IBOutlet weak var courseLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var toggleButton: UIButton!
+    
+    var course = loadSampleCourse()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        //titleLabel.adjustsFontSizeToFitWidth = true
+        //toggleButton.setTitleColor(color: , for: .normal)
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
 
     @IBAction func setInValidInfo(_ sender: UIButton) {
-        courseLabel.text = "Invalid"
+        if !check_pre_filled(node: course) {
+            toggleButton.isSelected = !toggleButton.isSelected
+            if toggleButton.isSelected {
+                titleLabel.text = "Pre-requisites unfilled."
+            } else {
+                titleLabel.text = course.title
+            }
+        }
     }
 }
