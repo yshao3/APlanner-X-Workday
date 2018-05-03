@@ -10,7 +10,7 @@ import UIKit
 
 class SearchTableViewController: UITableViewController, UISearchResultsUpdating {
     
-    let unfilter_courses = Array(load_course().values)
+    let unfilter_courses = Array(load_dict().values)
     var all_courses: [Node]?
     let searchController = UISearchController(searchResultsController: nil)
     

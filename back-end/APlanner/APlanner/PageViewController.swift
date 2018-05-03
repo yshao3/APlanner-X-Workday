@@ -64,7 +64,7 @@ class PageViewController: UIViewController {
         
         preTableView.delegate = self
         preTableView.dataSource = self
-        
+        navigationController?.navigationItem.backBarButtonItem?.tintColor = UIColor.white
 //        saveButton.isEnabled = false
         if course.inScheduler {
             addButton.setTitle("Remove from Scheduler", for: .normal)

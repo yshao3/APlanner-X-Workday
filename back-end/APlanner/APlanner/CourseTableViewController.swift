@@ -30,6 +30,7 @@ class CourseTableViewController: UITableViewController {
 //            model = loadSemester()
 //        }
         model = loadSemester()
+        saveSemester()
         //self.navigationController?.navigationBar.barTintColor = UIColor.green
     }
     override func viewDidAppear(_ animated: Bool) {
