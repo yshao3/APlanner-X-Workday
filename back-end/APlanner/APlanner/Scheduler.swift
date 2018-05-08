@@ -113,7 +113,7 @@ func load_course() -> [String: Node] {
     //print(raw_data)
     var courseDict = [String: Node]()
     for str_array in raw_data! {
-        let node = Node(course: str_array[0].uppercased(), title: str_array[1], desc: str_array[2], term: str_array[3], area: str_array[4], pre_str: str_array[5].uppercased(), notCurrent_str: str_array[6].uppercased(), inScheduler: false, credits: 3, pre: [])
+        let node = Node(course: str_array[0].uppercased(), title: str_array[1], desc: str_array[2], term: str_array[3], area: str_array[4], pre_str: str_array[5].uppercased(), notCurrent_str: str_array[6].uppercased(), inScheduler: false, credits: Int(str_array[8])!, tracks: str_array[7], addFrom: "")
         //course_list.append(node)
         node.after_init()
         courseDict[str_array[0].uppercased()] = node
@@ -199,5 +199,5 @@ func loadTerms(start_year: Int) -> [[String]]{
 }
 
 func loadSampleCourse() -> Node {
-    return Node(course: "CS2800", title: "Discrete Structures", desc: "Covers the mathematics that underlies most of computer science. Topics include mathematical induction; logical proof; propositional and predicate calculus; combinatorics and discrete mathematics; some basic elements of basic probability theory; basic number theory; sets, functions, and relations; graphs; and finite-state machines. These topics are discussed in the context of applications to many areas of computer science, such as the RSA cryptosystem and web searching.", term: "Fall, Spring", area: "General", pre_str: "CS1110", notCurrent_str: "", inScheduler: false, credits: 3, pre: [])
+    return Node(course: "CS2800", title: "Discrete Structures", desc: "Covers the mathematics that underlies most of computer science. Topics include mathematical induction; logical proof; propositional and predicate calculus; combinatorics and discrete mathematics; some basic elements of basic probability theory; basic number theory; sets, functions, and relations; graphs; and finite-state machines. These topics are discussed in the context of applications to many areas of computer science, such as the RSA cryptosystem and web searching.", term: "Fall, Spring", area: "General", pre_str: "CS1110", notCurrent_str: "", inScheduler: false, credits: 3, tracks: "", addFrom: "")
 }

@@ -29,6 +29,8 @@ class Node: NSObject, NSCoding {
     var notCurrent_str: String
     var inScheduler: Bool
     var credits: Int
+    var tracks: String
+    var addFrom: String
     
     //MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -45,13 +47,15 @@ class Node: NSObject, NSCoding {
         static let notCurrent_str = "notCurrent_str"
         static let inScheduler = "inScheduler"
         static let credits = "credits"
-        static let pre = "pre"
+//        static let pre = "pre"
+        static let tracks = "tracks"
+        static let addFrom = "addFrom"
     }
     
-    init(course: String, title: String, desc: String, term: String, area: String, pre_str: String, notCurrent_str: String, inScheduler: Bool, credits: Int, pre: [Node]) {
+    init(course: String, title: String, desc: String, term: String, area: String, pre_str: String, notCurrent_str: String, inScheduler: Bool, credits: Int, tracks: String, addFrom: String) {
         self.course = course
         self.title = title
-        self.pre = pre
+        self.pre = []
         self.inDegree = 0
         self.next = []
         self.isValid = true
@@ -68,6 +72,8 @@ class Node: NSObject, NSCoding {
         self.notCurrent_set = []
         self.inScheduler = inScheduler
         self.credits = credits
+        self.tracks = tracks
+        self.addFrom = addFrom
     }
     
     //MARK: NSCoding
@@ -82,8 +88,10 @@ class Node: NSObject, NSCoding {
         aCoder.encode(notCurrent_str, forKey: PropertyKey.notCurrent_str)
         aCoder.encode(inScheduler, forKey: PropertyKey.inScheduler)
         aCoder.encode(credits, forKey: PropertyKey.credits)
-        //aCoder.encode(pre, forKey: PropertyKey.pre)
-        aCoder.encode(NSKeyedArchiver.archivedData(withRootObject: pre), forKey: PropertyKey.pre)
+//        //aCoder.encode(pre, forKey: PropertyKey.pre)
+//        aCoder.encode(NSKeyedArchiver.archivedData(withRootObject: pre), forKey: PropertyKey.pre)
+        aCoder.encode(tracks, forKey: PropertyKey.tracks)
+        aCoder.encode(addFrom, forKey: PropertyKey.addFrom)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -109,12 +117,16 @@ class Node: NSObject, NSCoding {
         
         let credits = aDecoder.decodeInteger(forKey: PropertyKey.credits)
         
+        let tracks = aDecoder.decodeObject(forKey: PropertyKey.tracks) as? String
+        
+        let addFrom = aDecoder.decodeObject(forKey: PropertyKey.addFrom) as? String
+        
         // let pre = aDecoder.decodeObject(forKey: PropertyKey.pre) as? [Node]
         
-        let pre = NSKeyedUnarchiver.unarchiveObject(with: (aDecoder.decodeObject(forKey: PropertyKey.pre) as! NSData) as Data) as? [Node]
+//        let pre = NSKeyedUnarchiver.unarchiveObject(with: (aDecoder.decodeObject(forKey: PropertyKey.pre) as! NSData) as Data) as? [Node]
         
         // Must call designated initializer.
-        self.init(course: course!, title: title!, desc: desc!, term: term!, area: area!, pre_str: pre_str!, notCurrent_str: notCurrent_str!, inScheduler: inScheduler, credits: credits, pre: pre!)
+        self.init(course: course!, title: title!, desc: desc!, term: term!, area: area!, pre_str: pre_str!, notCurrent_str: notCurrent_str!, inScheduler: inScheduler, credits: credits, tracks: tracks!, addFrom: addFrom!)
     }
     
     public func after_init() {
