@@ -93,7 +93,7 @@ UITextFieldDelegate{
         for i in year-10 ... year+10{
             years.append(String(i))
         }
-        
+        MyVariables.courseDict = load_dict()
         
         
         //        view.addSubview(DegreePicker)

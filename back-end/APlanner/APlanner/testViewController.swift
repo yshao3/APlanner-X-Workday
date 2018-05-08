@@ -12,22 +12,22 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
     var track = ""
     var im = UIImage()
     @IBOutlet weak var name: UILabel!
-    //    @IBOutlet weak var track: UILabel!
     var cores:[Node] = []
     var fullplan:[[Node]] = []
-    var model: [Int: Semester] = [:]
+    var model:[Int:Semester] = [:]
+   
     @IBOutlet weak var corecourses: UICollectionView!
 //    var course_dic: [String:Node] = [:]
-    var course_dic = MyVariables.yourVariable
+    var course_dic = MyVariables.courseDict
     var toadd = false
     
     @IBOutlet weak var image: UIImageView!
     
     @IBAction func AddOrDelete(_ sender: Any) {
         if (toadd){
-//            deletefullplan(fullplan: fullplan)
+            deletefullplan(fullplan: fullplan)
             addordelete.setTitle("Add to my scheduler", for:.normal )
-            addordelete.backgroundColor = UIColor.blue
+            addordelete.backgroundColor = UIColor(displayP3Red: 5/255, green:194/255, blue: 200/255, alpha: 1.0)
         }else{
             addfullplan(fullplan: fullplan)
             addordelete.setTitle("Delete from my scheduler", for:.normal )
@@ -44,7 +44,7 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
 //        course_dic = load_dict()
         cores = loadCore(track:track,course_dic:course_dic)
         fullplan = loadPlan(core: cores,course_dic: course_dic)
-        
+//        model = MyVariables.scheduler
         name.textColor = UIColor.white
         name.text = track
         model = loadSemester()
@@ -86,16 +86,18 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
         for plan in fullplan{
             for course in plan{
                 if (!course.inScheduler){
-                    if (model[index]==nil){
+                    if (MyVariables.scheduler[index]==nil){
                         var term = ""
                         if cur_year > float_t(integer_t(cur_year)){
                             term = "Fall"
                         }else{term = "Spring"}
-                        model[index] = Semester(time:String(integer_t(cur_year))+" term",courses:[])
+                        
+                        MyVariables.scheduler[index] = Semester(time:(term+" "+String(integer_t(cur_year))),courses:[])
                         
                     }
-                    model[index]?.addCourse(course: course);
+                    MyVariables.scheduler[index]?.addCourse(course: course);
                     course.inScheduler = true
+                    course.addFrom = track
                 
                 }
                 
@@ -103,11 +105,25 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
             cur_year+=0.5
             index += 1
         }
+        print(String(describing: model))
+        print(String(describing: MyVariables.scheduler))
     }
     func deletefullplan(fullplan:[[Node]]){
         for plan in fullplan{
             for course in plan{
-
+                if (course.addFrom == track){
+                    for S in model{
+                        var i = 0
+                        while i < S.value.courses.count{
+                            if S.value.courses[i] == course{
+                                S.value.courses.remove(at: i)
+                            }else{
+                                i += 1
+                            }
+                        }
+                       
+                    }
+                }
             }
         }
     }

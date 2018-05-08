@@ -8,5 +8,9 @@
 
 import Foundation
 struct MyVariables {
-    static var yourVariable = load_dict()
+    static var courseDict = load_dict()
+    
+    static var scheduler: [Int: Semester] = [:]
 }
+
+
