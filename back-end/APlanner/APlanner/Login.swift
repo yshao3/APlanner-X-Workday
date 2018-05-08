@@ -21,16 +21,46 @@ func loadtrack(trackname:String) -> [String]{
     return ["CS 4940","CS 5100"]
 }
 func loadTags(major:String) -> [String:[String]]{
-    return ["Machine Learning":["Data Science","AI"],"System":["Distributed System","Operating System"]]
+    return ["Artificial Intelligence":["Data Science","AI in real life"],"Cryptography":["Advanced Topics in Algorithms","Entrepreneurship in Technology"]]
 }
 func loadImage(major:String) -> [String:[UIImage]]{
-    return ["Machine Learning":[#imageLiteral(resourceName: "conv_art_intel"),#imageLiteral(resourceName: "data_in_eve_life")],"System":[#imageLiteral(resourceName: "dist_db"),#imageLiteral(resourceName: "sde_1")]]
+    return ["Artificial Intelligence":[#imageLiteral(resourceName: "conv_art_intel"),#imageLiteral(resourceName: "data_in_eve_life")],"Cryptography":[#imageLiteral(resourceName: "dist_db"),#imageLiteral(resourceName: "sde_1")]]
 }
-func loadCore(track:String) -> [String]{
-    return ["CS 4410","CS 4700"]
+func loadCore(track:String, course_dic:[String:Node]) -> [Node]{
+    var res:[Node] = []
+    for row in Array(course_dic){
+        if (row.value.area == track){
+            res.append(row.value)
+        }
+    }
+    return res
 }
-func loadPlan(core:[String]) -> [[String]]{
-    return [["CS 1110","CS 1120"],["CS 2300","CS 2800"],["CS 3300","CS 3000"], ["CS 4410","CS 4470"]]
+func loadPlan(core:[Node],course_dic:[String:Node]) -> [[Node]]{
+    var res:[[Node]] = []
+    var level = 0
+    var dic :Deque<Node> = Deque(100)
+    for c in core{
+        dic.enqueue(c)
+    }
+    var visited:Set<Node> = []
+    while !dic.isEmpty{
+        var number = dic.count
+        
+        while number > 0{
+            let tmp = dic.dequeue()
+            if (!visited.contains(tmp!)){
+            res[level].append(tmp!)
+                visited.insert(tmp!)
+            for n in (tmp?.pre)!{
+                dic.enqueue(n)
+                }
+            }
+            number -= 1
+        }
+        level+=1
+    }
+    
+    return res
 }
 func selectedCourse() ->  (NSMutableSet,Int){
     let map = NSKeyedUnarchiver.unarchiveObject(withFile: Semester.ArchiveURL.path) as? [Int: Semester]
