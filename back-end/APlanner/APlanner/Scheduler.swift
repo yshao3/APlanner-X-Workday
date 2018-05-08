@@ -159,6 +159,7 @@ func loadDict_disk() -> [String: Node]?  {
 
 func loadJson(filename fileName: String) -> [[String]]? {
     if let path = Bundle.main.path(forResource: fileName, ofType: "json") {
+       
         let peoplesArray = try! JSONSerialization.jsonObject(with: Data(contentsOf: URL(fileURLWithPath: path)), options: JSONSerialization.ReadingOptions()) as? [[String]]
         return peoplesArray
     }

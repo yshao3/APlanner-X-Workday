@@ -17,6 +17,7 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
     var fullplan:[[Node]] = []
     var model: [Int: Semester] = [:]
     @IBOutlet weak var corecourses: UICollectionView!
+//    var course_dic: [String:Node] = [:]
     var course_dic = MyVariables.yourVariable
     var toadd = false
     
@@ -40,6 +41,7 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
     @IBOutlet weak var scrollview: UIScrollView!
     override func viewDidLoad() {
         super.viewDidLoad()
+//        course_dic = load_dict()
         cores = loadCore(track:track,course_dic:course_dic)
         fullplan = loadPlan(core: cores,course_dic: course_dic)
         
@@ -102,13 +104,13 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
             index += 1
         }
     }
-//    func deletefullplan(fullplan:[[Node]]){
-//        for plan in fullplan{
-//            for course in plan{
-//
-//            }
-//        }
-//    }
+    func deletefullplan(fullplan:[[Node]]){
+        for plan in fullplan{
+            for course in plan{
+
+            }
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
