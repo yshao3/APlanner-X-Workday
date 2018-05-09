@@ -118,6 +118,7 @@ func load_course() -> [String: Node] {
         node.after_init()
         courseDict[str_array[0].uppercased()] = node
     }
+    print(courseDict["CS 2110"]?.credits ?? 3)
     //print(courseDict["cs 4110"]?.course ?? "not found")
     return courseDict
 }

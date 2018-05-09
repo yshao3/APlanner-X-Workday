@@ -42,7 +42,7 @@ class PageViewController: UIViewController {
         titleLabel.text = course.title
         descLabel.text = course.desc
         termLabel.text = course.term
-        whenLabel.text = "Availabe"
+        whenLabel.text = "Available"
         preLabel.text = "Pre-requisite"
         if check_pre_filled(node: course) {
             fillLabel.text = "Fullfilled"
@@ -99,6 +99,7 @@ class PageViewController: UIViewController {
 //        preTableView.frame = CGRect(x: preTableView.frame.origin.x, y: preTableView.frame.origin.y, width: preTableView.frame.size.width, height: preTableView.contentSize.height)
         //preTableView.reloadData()
         //self.navigationController?.navigationBar.barTintColor = UIColor.white
+        self.viewDidLoad()
         if check_pre_filled(node: course) {
             fillLabel.text = "Fullfilled"
         } else {
