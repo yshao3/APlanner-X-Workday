@@ -18,7 +18,7 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
    
     @IBOutlet weak var corecourses: UICollectionView!
 //    var course_dic: [String:Node] = [:]
-    var course_dic = MyVariables.courseDict
+    var course_dic = GloVar.courseDict
     var toadd = false
     
     @IBOutlet weak var image: UIImageView!
@@ -47,7 +47,7 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
 //        model = MyVariables.scheduler
         name.textColor = UIColor.white
         name.text = track
-        model = loadSemester()
+        model = GloVar.scheduler//loadSemester()
         image.image = im
         (tracks, _) = gettrack()
         if tracks.contains(track){
@@ -69,16 +69,15 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
     func addfullplan(fullplan:[[Node]]){
         let date = Date()
         let calendar = Calendar.current
-        var year = calendar.component(.year, from: date)
+        let year = calendar.component(.year, from: date)
         let month = calendar.component(.month, from: date)
         var cur_year = float_t(year)
         var cur_term = ""
         if (month >= 6) {
-             cur_term = "Fall"
+            cur_term = "Fall"
             cur_year += 0.5
         }else{
             cur_term = "Spring"
-            
         }
         
         var index = addToSemester(cur_year: String(year), cur_term: cur_term)
@@ -86,27 +85,31 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
         for plan in fullplan{
             for course in plan{
                 if (!course.inScheduler){
-                    if (MyVariables.scheduler[index]==nil){
+                    if (GloVar.scheduler[index]==nil){
                         var term = ""
                         if cur_year > float_t(integer_t(cur_year)){
                             term = "Fall"
                         }else{term = "Spring"}
                         
-                        MyVariables.scheduler[index] = Semester(time:(term+" "+String(integer_t(cur_year))),courses:[])
-                        
+                        GloVar.scheduler[index] = Semester(time:(term+" "+String(integer_t(cur_year))),courses:[])
                     }
-                    MyVariables.scheduler[index]?.addCourse(course: course);
+                    GloVar.scheduler[index]?.addCourse(course: course)
                     course.inScheduler = true
                     course.addFrom = track
-                
                 }
-                
             }
             cur_year+=0.5
             index += 1
         }
-        print(String(describing: model))
-        print(String(describing: MyVariables.scheduler))
+        var i = 0
+        let t = convert_time_to_float(year: GloVar.start_year, term: GloVar.start_term)
+        while GloVar.scheduler[i] == nil {
+            let curT = convert_float_to_time(time: t + Float(i)/2.0)
+            GloVar.scheduler[i] = Semester(time:(curT),courses:[])
+            i += 1
+        }
+//        print(String(describing: model))
+//        print(String(describing: MyVariables.scheduler))
     }
     func deletefullplan(fullplan:[[Node]]){
         for plan in fullplan{

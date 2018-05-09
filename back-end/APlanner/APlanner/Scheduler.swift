@@ -142,6 +142,7 @@ func test_2() -> [Int: Semester] {
 func load_dict() -> [String: Node] {
     var courseDict = load_course()
     courseDict = build_graph(courseDict: courseDict)
+    print("load dict")
     return courseDict
 }
 

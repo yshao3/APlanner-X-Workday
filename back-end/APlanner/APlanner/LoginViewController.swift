@@ -25,7 +25,8 @@ UITextFieldDelegate{
             UserDefaults.standard.synchronize()
             print ("finished")
             //            UserDefaults.standard.set([Enrollment.text, Major.text, Degree.text, Semester.text], forKey: "profile")
-            
+            GloVar.start_year = Int(Enrollment.text!)!
+            GloVar.start_term = Semester.text!
             
         }
         //        if (Degree.text != "" && Enrollment.text != "" && Semester.text != "" && Major.text != "") {
@@ -93,9 +94,9 @@ UITextFieldDelegate{
         for i in year-10 ... year+10{
             years.append(String(i))
         }
-        MyVariables.courseDict = load_dict()
-        
-        
+        GloVar.courseDict = load_dict()
+        GloVar.start_year = 2017
+        GloVar.start_term = "Fall"
         //        view.addSubview(DegreePicker)
         
         // Do any additional setup after loading the view.

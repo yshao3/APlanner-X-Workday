@@ -67,10 +67,10 @@ func loadPlan(core:[Node],course_dic:[String:Node]) -> [[Node]]{
 }
 func selectedCourse() ->  (NSMutableSet,Int){
 //    let map = NSKeyedUnarchiver.unarchiveObject(withFile: Semester.ArchiveURL.path) as? [Int: Semester]
-    let map = MyVariables.scheduler
-    var s = NSMutableSet()
+    let map = GloVar.scheduler
+    let s = NSMutableSet()
     var credits = 0
-    if (map == nil){
+    if (map.count == 0){
         return (s, credits)
     }
     for item  in map{

@@ -34,7 +34,7 @@ class CourseTableViewController: UITableViewController {
         //self.navigationController?.navigationBar.barTintColor = UIColor.green
     }
     override func viewDidAppear(_ animated: Bool) {
-        self.viewDidLoad()
+        //self.viewDidLoad()
         super.viewDidAppear(animated)
         //preTableView.reloadData()
         //self.navigationController?.navigationBar.barTintColor = UIColor.green
@@ -156,7 +156,7 @@ class CourseTableViewController: UITableViewController {
             } else {
                 let section = addToSemester(cur_year: year, cur_term: term)
                 print(section)
-                if section >= model.count {
+                if model[section] == nil { //section >= model.count || 
                     tableView.beginUpdates()
                     tableView.insertSections(IndexSet(integer: section), with: .automatic)
                     model[section] = Semester(time: term + " " + year, courses: [])
