@@ -23,6 +23,7 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
     
     @IBOutlet weak var image: UIImageView!
     
+    @IBOutlet weak var tableview: UITableView!
     @IBAction func AddOrDelete(_ sender: Any) {
         if (toadd){
             deletefullplan(fullplan: fullplan)
@@ -42,6 +43,7 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
 //        course_dic = load_dict()
+        course_dic = GloVar.courseDict
         cores = loadCore(track:track,course_dic:course_dic)
         fullplan = loadPlan(core: cores,course_dic: course_dic)
 //        model = MyVariables.scheduler
@@ -60,8 +62,13 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
         }
         
         view.addSubview(scrollview)
+//        tableView.reloadDate()
 
         // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        self.viewDidLoad()
+        tableview.reloadData()
     }
 //    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
 //        return true
@@ -115,16 +122,19 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
         for plan in fullplan{
             for course in plan{
                 if (course.addFrom == track){
-                    for S in model{
+                    for S in GloVar.scheduler{
                         var i = 0
                         while i < S.value.courses.count{
                             if S.value.courses[i] == course{
                                 S.value.courses.remove(at: i)
+                                course.inScheduler = false
                             }else{
                                 i += 1
                             }
                         }
-                       
+                        if (S.value.count() == 0){
+                            GloVar.scheduler.removeValue(forKey: S.key)
+                        }
                     }
                 }
             }

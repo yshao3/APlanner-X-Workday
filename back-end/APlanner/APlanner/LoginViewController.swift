@@ -20,9 +20,11 @@ UITextFieldDelegate{
     @IBAction func Next(_ sender: Any) {
         if (Degree.text != "" && Enrollment.text != "" && Semester.text != "" && Major.text != ""){
             let user = User(EnrollYear: Enrollment.text!,Major: Major.text!,degree: Degree.text!, interest: NSMutableSet(),class_selected: NSMutableSet(),Semester: Semester.text!)
+        
             let encoded: Data = NSKeyedArchiver.archivedData(withRootObject: user)
             UserDefaults.standard.set(encoded,forKey:"profile")
             UserDefaults.standard.synchronize()
+            
             print ("finished")
             //            UserDefaults.standard.set([Enrollment.text, Major.text, Degree.text, Semester.text], forKey: "profile")
             GloVar.start_year = Int(Enrollment.text!)!
@@ -39,7 +41,7 @@ UITextFieldDelegate{
     //    }
     //    var pickerView = UIPickerView()
     //    var Degrees:[String]! = loadDegree()
-    var Degrees:[String] = ["Bacholar", "Master"]
+    var Degrees:[String] = ["Bachelor", "Master"]
     var Majors:[String]! = loadMajor()
     var semester:[String] = ["Fall","Spring"]
     var years:[String]=[]

@@ -100,6 +100,7 @@ class PageViewController: UIViewController {
         //preTableView.reloadData()
         //self.navigationController?.navigationBar.barTintColor = UIColor.white
         self.viewDidLoad()
+//        tableView.reloadDate()
         if check_pre_filled(node: course) {
             fillLabel.text = "Fullfilled"
         } else {

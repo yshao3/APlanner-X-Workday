@@ -29,21 +29,22 @@ class CourseTableViewController: UITableViewController {
 //        } else {
 //            model = loadSemester()
 //        }
-        model = MyVariables.scheduler//loadSemester()
+        model = GloVar.scheduler//loadSemester()
         saveSemester()
+        tableView.reloadData()
         //self.navigationController?.navigationBar.barTintColor = UIColor.green
     }
-    override func viewDidAppear(_ animated: Bool) {
-        //self.viewDidLoad()
-        super.viewDidAppear(animated)
-        //preTableView.reloadData()
-        //self.navigationController?.navigationBar.barTintColor = UIColor.green
-        
-    }
-//    override func viewWillAppear(_ animated: Bool) {
-//        self.viewDidLoad()
-//        print(model)
+//    override func viewDidAppear(_ animated: Bool) {
+//        //self.viewDidLoad()
+//        super.viewDidAppear(animated)
+//        //preTableView.reloadData()
+//        //self.navigationController?.navigationBar.barTintColor = UIColor.green
+//
 //    }
+    override func viewWillAppear(_ animated: Bool) {
+        self.viewDidLoad()
+        print(model)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

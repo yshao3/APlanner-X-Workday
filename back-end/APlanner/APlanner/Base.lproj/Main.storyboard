@@ -929,6 +929,7 @@
                         <outlet property="image" destination="Uw5-N0-nZb" id="R7P-b3-SgF"/>
                         <outlet property="name" destination="24u-xT-yym" id="elL-st-eaa"/>
                         <outlet property="scrollview" destination="j9O-R5-dNk" id="YcU-Dp-JS1"/>
+                        <outlet property="tableview" destination="fbf-hB-Agu" id="PLd-TF-jOY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gdn-QL-87l" userLabel="First Responder" sceneMemberID="firstResponder"/>

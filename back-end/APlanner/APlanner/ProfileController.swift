@@ -14,7 +14,7 @@ class ProfileController: UIViewController, UITableViewDataSource, UITableViewDel
     @IBOutlet weak var Enrollment: UILabel!
     @IBOutlet weak var Credicts: UILabel!
     
-
+//    [self.view setNeedsDisplay];
     @IBOutlet weak var tableview: UITableView!
     var tracks :[String] = ["Data Science", "Machine Learning"]
     var credits: Int = 0
@@ -26,15 +26,17 @@ class ProfileController: UIViewController, UITableViewDataSource, UITableViewDel
         
         DegreeMajor.text = user.degree + " of "+user.Major
         Enrollment.text = "Class of " + user.EnrollYear
+//        print ("I'm here")
+//        [self.view, setNeedsDisplay];
         (tracks, credits) =  gettrack()
-        tracks = ["Data Science", "Machine Learning"]
-//    self.navigationController?. = true;
+        print (tracks)
+        print (credits)
         Credicts.text = String(credits)
         self.tableview.separatorStyle = .none
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
-      
+        
         // Do any additional setup after loading the view.
     }
 //    @IBAction func unwindToScheduler(sender: UIStoryboardSegue) {
@@ -43,8 +45,11 @@ class ProfileController: UIViewController, UITableViewDataSource, UITableViewDel
 //        }
 //    }
     override func viewWillAppear(_ animated: Bool) {
+        print("Profile view will appear")
         viewDidLoad()
+        tableview.reloadData()
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tracks.count
     }

@@ -11,20 +11,20 @@ import UIKit
 
 //load degrees
 func loadDegree()->[String]{
-    return ["Bacholar", "Master"]
+    return ["Bachelor", "Master"]
 }
 func loadMajor()->[String]{
     //should connect to database here
     return ["Computer Sicence"]
 }
-func loadtrack(trackname:String) -> [String]{
-    return ["CS 4940","CS 5100"]
-}
+//func loadtrack(trackname:String) -> [String]{
+//    return ["CS 4940","CS 5100"]
+//}
 func loadTags(major:String) -> [String:[String]]{
-    return ["Artificial Intelligence":["Data Science","AI in real life"],"Cryptography":["Advanced Topics in Algorithms","Entrepreneurship in Technology"]]
+    return ["Artificial Intelligence":["Data Science"],"Cryptography":["Advanced Topics in Algorithms","Entrepreneurship in Technology"]]
 }
 func loadImage(major:String) -> [String:[UIImage]]{
-    return ["Artificial Intelligence":[#imageLiteral(resourceName: "conv_art_intel"),#imageLiteral(resourceName: "data_in_eve_life")],"Cryptography":[#imageLiteral(resourceName: "dist_db"),#imageLiteral(resourceName: "sde_1")]]
+    return ["Artificial Intelligence":[#imageLiteral(resourceName: "conv_art_intel")],"Cryptography":[#imageLiteral(resourceName: "dist_db"),#imageLiteral(resourceName: "sde_1")]]
 }
 func loadCore(track:String, course_dic:[String:Node]) -> [Node]{
     var res:[Node] = []
@@ -84,15 +84,17 @@ func selectedCourse() ->  (NSMutableSet,Int){
 }
 func gettrack() -> ([String],Int){
     let (courses,  credits) = selectedCourse()
+    print(courses)
     let tags = loadTags(major:"CS")
 //    var cores :[String:[String]] = [:]
     var res:[String] = []
     for tag in tags{
         for track in tag.value{
-            let cores = loadtrack(trackname: track)
+            let cores = loadCore(track: track, course_dic: GloVar.courseDict)
+            print (cores)
             var num = 0
             for core in cores{
-                if (courses.contains(core)){
+                if (courses.contains(core.course)){
                     num += 1
                 }else{
                     break
