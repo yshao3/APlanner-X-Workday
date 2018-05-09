@@ -29,7 +29,7 @@ func loadImage(major:String) -> [String:[UIImage]]{
 func loadCore(track:String, course_dic:[String:Node]) -> [Node]{
     var res:[Node] = []
     for row in Array(course_dic){
-        if (row.value.area == track){
+        if (row.value.tracks.range(of:track) != nil){
             res.append(row.value)
         }
     }
@@ -44,11 +44,14 @@ func loadPlan(core:[Node],course_dic:[String:Node]) -> [[Node]]{
     }
     var visited:Set<Node> = []
     while !dic.isEmpty{
+        res.append([])
         var number = dic.count
         
         while number > 0{
             let tmp = dic.dequeue()
+            
             if (!visited.contains(tmp!)){
+                
             res[level].append(tmp!)
                 visited.insert(tmp!)
             for n in (tmp?.pre)!{
@@ -60,16 +63,17 @@ func loadPlan(core:[Node],course_dic:[String:Node]) -> [[Node]]{
         level+=1
     }
     
-    return res
+    return res.reversed()
 }
 func selectedCourse() ->  (NSMutableSet,Int){
-    let map = NSKeyedUnarchiver.unarchiveObject(withFile: Semester.ArchiveURL.path) as? [Int: Semester]
+//    let map = NSKeyedUnarchiver.unarchiveObject(withFile: Semester.ArchiveURL.path) as? [Int: Semester]
+    let map = MyVariables.scheduler
     var s = NSMutableSet()
     var credits = 0
     if (map == nil){
         return (s, credits)
     }
-    for item  in map!{
+    for item  in map{
         let semester = item.value
         for course in semester.courses{
             s.add(course.course)
