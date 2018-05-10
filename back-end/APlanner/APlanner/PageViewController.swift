@@ -178,7 +178,6 @@ extension PageViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             year = comp[component][row]
         }
         chooseTerm.text = term + " " + year
-        addToSchePicker.isHidden = true
         chooseTerm.resignFirstResponder()
         //saveButton.isEnabled = true
 //        addButton.isEnabled = true

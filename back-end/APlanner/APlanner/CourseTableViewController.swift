@@ -44,6 +44,7 @@ class CourseTableViewController: UITableViewController {
 //
 //    }
     override func viewWillAppear(_ animated: Bool) {
+        check_model_key()
         self.viewDidLoad()
         print(model)
     }
@@ -164,32 +165,37 @@ class CourseTableViewController: UITableViewController {
                 model[j]?.courses.remove(at: i)
                 course.inScheduler = false
                 print("Delete course" + course.course)
-                let indexPath = IndexPath(row: i, section: j)
-                tableView.deleteRows(at: [indexPath], with: .fade)
+//                let indexPath = IndexPath(row: i, section: j)
+//                tableView.deleteRows(at: [indexPath], with: .fade)
                 GloVar.courseDict[course.course]?.inScheduler = false
             } else {
                 let section = addToSemester(cur_year: year, cur_term: term)
-                print(section)
+                
                 if model[section] == nil { //section >= model.count || 
-                    tableView.beginUpdates()
-                    tableView.insertSections(IndexSet(integer: section), with: .automatic)
+//                    tableView.beginUpdates()
+//                    tableView.insertSections(IndexSet(integer: section), with: .automatic)
                     model[section] = Semester(time: term + " " + year, courses: [])
-                    tableView.endUpdates()
+//                    tableView.endUpdates()
                 }
                 
                 // TODO: what if add to a semester which does not have a course???
-                let newIndexPath = IndexPath(row: (model[section]?.count())!, section: section)
+//                let newIndexPath = IndexPath(row: (model[section]?.count())!, section: section)
                 course.inScheduler = true
                 model[section]?.addCourse(course: course)
-                tableView.insertRows(at: [newIndexPath], with: .automatic)
+//                tableView.insertRows(at: [newIndexPath], with: .automatic)
                 print("Add course" + course.course)
                 GloVar.courseDict[course.course]?.inScheduler = true
             }
             saveSemester()
             GloVar.scheduler = model
+            check_model_key()
+            print(GloVar.scheduler)
+            print("unwind")
+            model = GloVar.scheduler
 //
             tableView.reloadData()
         }
+        print("unwind 2 ")
     }
 
     
