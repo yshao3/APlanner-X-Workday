@@ -29,8 +29,10 @@ class CourseTableViewController: UITableViewController {
 //        } else {
 //            model = loadSemester()
 //        }
+        
+        //saveSemester()
+        check_model_key()
         model = GloVar.scheduler//loadSemester()
-        saveSemester()
         tableView.reloadData()
         //self.navigationController?.navigationBar.barTintColor = UIColor.green
     }
@@ -80,14 +82,21 @@ class CourseTableViewController: UITableViewController {
         cell.course = course!
 //        cell.photoImageView.image = meal.photo
 //        cell.ratingControl.rating = meal.rating
+        print("check" + (course?.course)!)
+        //print(check_pre_filled(node: course!))
         if !check_pre_filled(node: course!) {
-            cell.toggleButton.setImage(#imageLiteral(resourceName: "orange_warning_icon"), for: .normal)
+            cell.toggleButton.isHidden = false
+            cell.toggleButton.tintColor = UIColor.orange
+        } else {
+            cell.toggleButton.isHidden = true
+            cell.toggleButton.tintColor = UIColor(displayP3Red: 0.0, green: 112/255, blue: 1, alpha: 1)
         }
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
         return model[section]?.time
     }
     
@@ -103,12 +112,15 @@ class CourseTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+            let c = model[indexPath.section]?.courses[indexPath.row]
             model[indexPath.section]?.courses.remove(at: indexPath.row)
             saveSemester()
             tableView.deleteRows(at: [indexPath], with: .fade)
+            GloVar.courseDict[(c?.course)!]?.inScheduler = false
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
+        GloVar.scheduler = model
     }
     
 
@@ -154,6 +166,7 @@ class CourseTableViewController: UITableViewController {
                 print("Delete course" + course.course)
                 let indexPath = IndexPath(row: i, section: j)
                 tableView.deleteRows(at: [indexPath], with: .fade)
+                GloVar.courseDict[course.course]?.inScheduler = false
             } else {
                 let section = addToSemester(cur_year: year, cur_term: term)
                 print(section)
@@ -170,8 +183,12 @@ class CourseTableViewController: UITableViewController {
                 model[section]?.addCourse(course: course)
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
                 print("Add course" + course.course)
+                GloVar.courseDict[course.course]?.inScheduler = true
             }
             saveSemester()
+            GloVar.scheduler = model
+//
+            tableView.reloadData()
         }
     }
 

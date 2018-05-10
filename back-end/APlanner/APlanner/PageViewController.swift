@@ -9,7 +9,7 @@
 import UIKit
 import os.log
 
-class PageViewController: UIViewController {
+class PageViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var numLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
@@ -20,7 +20,8 @@ class PageViewController: UIViewController {
     @IBOutlet weak var fillLabel: UILabel!
     @IBOutlet weak var areaLabel: UILabel!
     @IBOutlet weak var tagLabel: UILabel!
-    @IBOutlet weak var addToSchePicker: UIPickerView!
+//    @IBOutlet weak var addToSchePicker: UIPickerView!
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var preTableView: UITableView!
     @IBOutlet weak var addToPlanner: UILabel!
@@ -28,13 +29,14 @@ class PageViewController: UIViewController {
     @IBOutlet weak var addButton: UIButton!
     
     
-    var course = loadSampleCourse()
+    var course: Node = loadSampleCourse()
     var term = "Fall"
     var year = "2017"
 
     var comp: [[String]] = [[String]]()
     var courseDict = [String: Node]()//load_dict()
     var course_name = ""
+    var addToSchePicker = UIPickerView()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,6 +48,7 @@ class PageViewController: UIViewController {
         preLabel.text = "Pre-requisite"
         if check_pre_filled(node: course) {
             fillLabel.text = "Fullfilled"
+            fillLabel.textColor = UIColor.black
         } else {
             fillLabel.text = "Unfullfilled"
             fillLabel.textColor = UIColor.red
@@ -59,39 +62,44 @@ class PageViewController: UIViewController {
         //scrollView.addSubview(addToSchePicker)
         addToSchePicker.delegate = self
         addToSchePicker.dataSource = self
+        chooseTerm.inputView = addToSchePicker
         
-        chooseTerm.delegate = self
-        
+        //chooseTerm.delegate = self
+    
         preTableView.delegate = self
         preTableView.dataSource = self
         navigationController?.navigationItem.backBarButtonItem?.tintColor = UIColor.white
 //        saveButton.isEnabled = false
         if course.inScheduler {
             addButton.setTitle("Remove from Scheduler", for: .normal)
+//            addButton.titleLabel = "Remove from Scheduler"
         } else {
             addButton.setTitle("Add to Scheduler", for: .normal)
         }
         preTableView.tableFooterView = UIView(frame: .zero)
+        self.preTableView.separatorStyle = .none
         //scrollView.addSubview(preTableView)
         view.addSubview(scrollView)
 //        stackView.addSubview(addToSchePicker)
 //        self.addToSchePicker.dataSource = self
 //        self.addToSchePicker.delegate = self
-        comp = loadTerms(start_year: 2017)
+        comp = loadTerms(start_year: GloVar.start_year)
 //        addToSchePicker.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20.0).isActive = true
 //        addToSchePicker.topAnchor.constraint(equalTo:self.view.topAnchor, constant: 500.0).isActive = true
         // Do any additional setup after loading the view.
+        
+        //self.navigationController?.navigationBar.barTintColor = UIColor.white
+        
+        courseDict = GloVar.courseDict
         if course_name != "" {
             self.course = courseDict[course_name]!
         }
-        //self.navigationController?.navigationBar.barTintColor = UIColor.white
-        if let dict = loadDict_disk() {
-            courseDict = dict
+        print("check in did load")
+        if !course.inScheduler {
+            addButton.backgroundColor = UIColor(displayP3Red: 5/255, green: 194/255, blue: 200/255, alpha: 1)
         } else {
-            courseDict = load_dict()
-            saveDict_disk(courseDict: courseDict)
+            addButton.backgroundColor = UIColor.red
         }
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -101,12 +109,14 @@ class PageViewController: UIViewController {
         //self.navigationController?.navigationBar.barTintColor = UIColor.white
         self.viewDidLoad()
 //        tableView.reloadDate()
-        if check_pre_filled(node: course) {
-            fillLabel.text = "Fullfilled"
-        } else {
-            fillLabel.text = "Unfullfilled"
-            fillLabel.textColor = UIColor.red
-        }
+//        if check_pre_filled(node: course) {
+//            fillLabel.text = "Fullfilled"
+//            fillLabel.
+//        } else {
+//            fillLabel.text = "Unfullfilled"
+//            fillLabel.textColor = UIColor.red
+//        }
+        print("check in did appear")
     }
     
     override func viewDidLayoutSubviews() {
@@ -136,16 +146,19 @@ class PageViewController: UIViewController {
             os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
             return
         }
+        
+        //course.inScheduler = !course.inScheduler
+        
     }
 
 
 }
-extension PageViewController: UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
-    func pickUp(_ textField : UITextField){
-        // UIPickerView
-        textField.inputView = addToSchePicker
-        
-    }
+extension PageViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+//    func pickUp(_ textField : UITextField){
+//        // UIPickerView
+//        textField.inputView = addToSchePicker
+//
+//    }
     //  set up pickers
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
@@ -165,13 +178,15 @@ extension PageViewController: UIPickerViewDelegate, UIPickerViewDataSource, UITe
             year = comp[component][row]
         }
         chooseTerm.text = term + " " + year
+        addToSchePicker.isHidden = true
+        chooseTerm.resignFirstResponder()
         //saveButton.isEnabled = true
 //        addButton.isEnabled = true
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        pickUp(chooseTerm)
-    }
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//        pickUp(chooseTerm)
+//    }
     
     
 }
@@ -187,7 +202,7 @@ extension PageViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let tableViewCell = cell as? PreReqTableViewCell else { return }
-        tableViewCell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row)
+        tableViewCell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.section)
     }
     
     

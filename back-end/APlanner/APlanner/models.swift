@@ -24,7 +24,7 @@ struct GloVar {
 
 func convert_float_to_time(time: Float) -> String {
     let year = String(Int(time))
-    var term = "Sprint"
+    var term = "Spring"
     if time - Float(Int(time)) > 0.1 {
         term = "Fall"
     }
@@ -39,5 +39,21 @@ func convert_time_to_float(year: Int, term: String) -> Float {
     return now
 }
 
+func check_model_key() {
+    var i = 0
+    let t = convert_time_to_float(year: GloVar.start_year, term: GloVar.start_term)
+    if GloVar.scheduler.count == 0 {
+        return
+    }
+    let keys = Array(GloVar.scheduler.keys)
+    let max_key = keys.max()!
+    while i < max_key {
+        if GloVar.scheduler[i] == nil {
+            let curT = convert_float_to_time(time: t + Float(i)/2.0)
+            GloVar.scheduler[i] = Semester(time:(curT),courses:[])
+        }
+        i += 1
+    }
+}
 
 

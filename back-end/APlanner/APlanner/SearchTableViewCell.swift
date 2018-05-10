@@ -12,6 +12,7 @@ class SearchTableViewCell: UITableViewCell {
 
     @IBOutlet weak var courseNumSrch: UILabel!
     @IBOutlet weak var courseTitleSrch: UILabel!
+    @IBOutlet weak var checkImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

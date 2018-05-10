@@ -100,21 +100,18 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
                         
                         GloVar.scheduler[index] = Semester(time:(term+" "+String(integer_t(cur_year))),courses:[])
                     }
-                    GloVar.scheduler[index]?.addCourse(course: course)
                     course.inScheduler = true
                     course.addFrom = track
+                    GloVar.scheduler[index]?.addCourse(course: course)
+                    
+//                    course.inScheduler = true
+//                    course.addFrom = track
                 }
             }
             cur_year+=0.5
             index += 1
         }
-        var i = 0
-        let t = convert_time_to_float(year: GloVar.start_year, term: GloVar.start_term)
-        while GloVar.scheduler[i] == nil {
-            let curT = convert_float_to_time(time: t + Float(i)/2.0)
-            GloVar.scheduler[i] = Semester(time:(curT),courses:[])
-            i += 1
-        }
+        check_model_key()
 //        print(String(describing: model))
 //        print(String(describing: MyVariables.scheduler))
     }
@@ -132,9 +129,9 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
                                 i += 1
                             }
                         }
-                        if (S.value.count() == 0){
-                            GloVar.scheduler.removeValue(forKey: S.key)
-                        }
+//                        if (S.value.count() == 0){
+//                            GloVar.scheduler.removeValue(forKey: S.key)
+//                        }
                     }
                 }
             }
@@ -207,7 +204,7 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
         cell.name.text = Array(fullplan)[collectionView.tag][indexPath.item].course
         if  cores.contains(Array(fullplan)[collectionView.tag][indexPath.item]){
             cell.backgroundColor = UIColor(displayP3Red: 90/255, green:200/255, blue: 250/255, alpha: 1.0)
-            
+             cell.name.textColor = UIColor.white
             
         }else{
             cell.backgroundColor = UIColor(displayP3Red: 216/255, green:216/255, blue: 216/255, alpha: 1.0)

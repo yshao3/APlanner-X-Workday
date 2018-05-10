@@ -30,13 +30,19 @@ class CourseTableViewCell: UITableViewCell {
     }
 
     @IBAction func setInValidInfo(_ sender: UIButton) {
+        
         if !check_pre_filled(node: course) {
+            toggleButton.isHidden = false
+            toggleButton.tintColor = UIColor.orange
             toggleButton.isSelected = !toggleButton.isSelected
             if toggleButton.isSelected {
-                titleLabel.text = "Pre-requisites unfilled."
+                titleLabel.text = "Prerequisites unfullfilled."
             } else {
                 titleLabel.text = course.title
             }
+        } else {
+            toggleButton.isHidden = true
+            toggleButton.tintColor = UIColor(displayP3Red: 0.0, green: 112/255, blue: 1, alpha: 1)
         }
     }
 }

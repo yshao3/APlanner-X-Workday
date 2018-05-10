@@ -10,7 +10,7 @@ import UIKit
 
 class SearchTableViewController: UITableViewController, UISearchResultsUpdating {
     
-    let unfilter_courses = Array(load_dict().values)
+    let unfilter_courses = Array(GloVar.courseDict.values)//Array(load_dict().values)
     var all_courses: [Node]?
     let searchController = UISearchController(searchResultsController: nil)
     
@@ -26,6 +26,7 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating 
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
         tableView.tableHeaderView = searchController.searchBar
+        tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,6 +61,11 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating 
         
         cell.courseNumSrch.text = course.course
         cell.courseTitleSrch.text = course.title
+        if course.inScheduler {
+            cell.checkImage.image = #imageLiteral(resourceName: "check")
+        } else {
+            cell.checkImage.image = UIImage()
+        }
         //        cell.photoImageView.image = meal.photo
         //        cell.ratingControl.rating = meal.rating
         

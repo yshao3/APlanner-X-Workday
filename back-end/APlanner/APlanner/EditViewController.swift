@@ -49,7 +49,7 @@ class EditViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDat
     @IBOutlet weak var pickerview: UIPickerView!
     
     
-    var Degrees:[String] = ["Bacholar", "Master"]
+    var Degrees:[String] = ["Bachelor", "Master"]
     var Majors:[String]! = loadMajor()
     var semester:[String] = ["Fall","Spring"]
     var years:[String]=[]

@@ -15,7 +15,7 @@ func loadDegree()->[String]{
 }
 func loadMajor()->[String]{
     //should connect to database here
-    return ["Computer Sicence"]
+    return ["Computer Science"]
 }
 //func loadtrack(trackname:String) -> [String]{
 //    return ["CS 4940","CS 5100"]
