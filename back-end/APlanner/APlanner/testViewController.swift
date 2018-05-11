@@ -129,9 +129,7 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
                                 i += 1
                             }
                         }
-//                        if (S.value.count() == 0){
-//                            GloVar.scheduler.removeValue(forKey: S.key)
-//                        }
+
                     }
                 }
             }
