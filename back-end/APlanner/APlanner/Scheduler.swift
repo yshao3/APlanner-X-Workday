@@ -170,8 +170,29 @@ func loadJson(filename fileName: String) -> [[String]]? {
 }
 
 func check_pre_filled(node: Node) -> Bool {
-    for c in node.pre {
-        if !c.inScheduler {
+//    for c in node.pre {
+//        if !c.inScheduler {
+//            return false
+//        }
+//    }
+//    return true
+    var flag = 0
+    for cl in node.all_pre {
+        flag = 0
+        if cl.count == 0 {
+            continue
+        }
+        for c in cl {
+            let one_of = GloVar.courseDict[c]
+            if one_of != nil {
+                if (one_of?.inScheduler)! {
+                    flag |= 1
+                } else {
+                    flag |= 0
+                }
+            }
+        }
+        if flag == 0 {
             return false
         }
     }
@@ -211,4 +232,16 @@ func uppercaseFirstLetter(str: String) -> String {
         res.append(String(l.prefix(1).uppercased() + l.dropFirst()))
     }
     return res.joined(separator: ", ")
+}
+
+func check_all_pre() {
+    for (_, c) in GloVar.courseDict {
+        for cl in c.all_pre {
+            for c in cl {
+                if GloVar.courseDict[c] == nil {
+                    print(c)
+                }
+            }
+        }
+    }
 }

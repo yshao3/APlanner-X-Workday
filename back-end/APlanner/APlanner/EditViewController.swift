@@ -24,6 +24,8 @@ class EditViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDat
             let encoded: Data = NSKeyedArchiver.archivedData(withRootObject: user)
             UserDefaults.standard.set(encoded,forKey:"profile")
             UserDefaults.standard.synchronize()
+            GloVar.start_year = Int(Enrollment.text!)!
+            GloVar.start_term = Semester.text!
             print ("finished")
             }
         
@@ -49,7 +51,7 @@ class EditViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDat
    var pickerview = UIPickerView()
     
     
-    var Degrees:[String] = ["Bachelor", "Master"]
+    var Degrees:[String] = ["Bachelor", "Master", "PhD"]
     var Majors:[String]! = loadMajor()
     var semester:[String] = ["Fall","Spring"]
     var years:[String]=[]
@@ -113,12 +115,18 @@ class EditViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDat
         for i in year-5 ... year{
             years.append(String(i))
         }
+        let node:Data = UserDefaults.standard.object(forKey: "profile") as! Data
+        let user = NSKeyedUnarchiver.unarchiveObject(with: node) as! User
         self.Semester.delegate = self;
         self.Major.delegate = self;
         self.Enrollment.delegate = self;
         self.Degree.delegate = self;
         self.pickerview.delegate = self;
         self.pickerview.dataSource = self;
+        self.Semester.text = user.Semester;
+        self.Degree.text = user.degree;
+        self.Major.text = user.Major
+        self.Enrollment.text = user.EnrollYear
         self.Semester.inputView = pickerview;
         self.Major.inputView = pickerview;
         self.Enrollment.inputView = pickerview;

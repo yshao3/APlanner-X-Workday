@@ -212,8 +212,23 @@ extension PageViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        tableView.tableHeaderView?.backgroundColor = UIColor.lightGray
         return "One of the following"
     }
+    
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let headerView = UIView()
+//        headerView.backgroundColor = UIColor.lightGray
+//
+//        let headerLabel = UILabel(frame: <#T##CGRect#>)
+//        headerLabel.font = UIFont(name: "Helvetica", size: 16)
+//        headerLabel.textColor = UIColor.white
+//        headerLabel.text = "One of the following"//tableView(tableView, titleForHeaderInSection: section)
+//        headerLabel.sizeToFit()
+//        headerView.addSubview(headerLabel)
+//
+//        return headerView
+//    }
 }
 
 extension PageViewController: UICollectionViewDelegate, UICollectionViewDataSource {

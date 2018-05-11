@@ -46,7 +46,7 @@ UITextFieldDelegate{
     //    }
     //    var pickerView = UIPickerView()
     //    var Degrees:[String]! = loadDegree()
-    var Degrees:[String] = ["Bachelor", "Master"]
+    var Degrees:[String] = ["Bachelor", "Master", "PhD"]
     var Majors:[String]! = loadMajor()
     var semester:[String] = ["Fall","Spring"]
     var years:[String]=[]
@@ -62,7 +62,7 @@ UITextFieldDelegate{
         let date = Date()
         let calendar = Calendar.current
         let year = calendar.component(.year, from: date)
-        for i in year-5 ... year+5{
+        for i in year-5 ... year{
             years.append(String(i))
         }
         startButton.backgroundColor = UIColor(displayP3Red: 5/255, green: 194/255, blue: 200/255, alpha: 1)
@@ -77,7 +77,7 @@ UITextFieldDelegate{
         Major.inputView = pickerView
         Enrollment.inputView = pickerView
         
-        
+//        check_all_pre()
         //        Degree.delegate = self
         //        Semester.delegate = self
         //        Major.delegate = self
