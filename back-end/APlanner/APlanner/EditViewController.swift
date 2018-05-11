@@ -46,7 +46,7 @@ class EditViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDat
             return
     }}
 
-    @IBOutlet weak var pickerview: UIPickerView!
+   var pickerview = UIPickerView()
     
     
     var Degrees:[String] = ["Bachelor", "Master"]
@@ -72,13 +72,14 @@ class EditViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDat
         active_textFeild.text = cur_array[row]
         pickerView.isHidden = true
         save.isHidden = false
+        active_textFeild.resignFirstResponder()
 //        save.isEnabled = true
         
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         active_textFeild = textField
-        print ("I'm here")
+        
         switch textField{
         case Degree:
             cur_array = Degrees
@@ -94,6 +95,7 @@ class EditViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDat
         print (cur_array)
         pickerview.isHidden = false
         save.isHidden = true
+        
 //        save.isEnabled = false
         pickerview.reloadAllComponents()
         return true
@@ -108,13 +110,20 @@ class EditViewController: UIViewController, UIPickerViewDelegate,UIPickerViewDat
         let date = Date()
         let calendar = Calendar.current
         let year = calendar.component(.year, from: date)
-        for i in year-10 ... year+10{
+        for i in year-5 ... year{
             years.append(String(i))
         }
         self.Semester.delegate = self;
         self.Major.delegate = self;
         self.Enrollment.delegate = self;
         self.Degree.delegate = self;
+        self.pickerview.delegate = self;
+        self.pickerview.dataSource = self;
+        self.Semester.inputView = pickerview;
+        self.Major.inputView = pickerview;
+        self.Enrollment.inputView = pickerview;
+        self.Degree.inputView = pickerview;
+        
         // Do any additional setup after loading the view.
     }
 
