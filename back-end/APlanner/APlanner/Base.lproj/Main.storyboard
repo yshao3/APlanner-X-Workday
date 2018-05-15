@@ -192,21 +192,21 @@
                                                                             <rect key="frame" x="0.0" y="0.0" width="345" height="44"/>
                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ord-mc-DNu">
-                                                                                <size key="itemSize" width="88" height="47"/>
+                                                                                <size key="itemSize" width="110" height="30"/>
                                                                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                             </collectionViewFlowLayout>
                                                                             <cells>
                                                                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PreCollectionViewCell" id="Y1f-kr-HQj" customClass="PreCollectionViewCell" customModule="APlanner" customModuleProvider="target">
-                                                                                    <rect key="frame" x="0.0" y="-1.5" width="88" height="47"/>
+                                                                                    <rect key="frame" x="0.0" y="7" width="110" height="30"/>
                                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="88" height="47"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="110" height="30"/>
                                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                                         <subviews>
                                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GN0-r1-6ad">
-                                                                                                <rect key="frame" x="24" y="15" width="56" height="17"/>
+                                                                                                <rect key="frame" x="21" y="5" width="84" height="17"/>
                                                                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                                 <nil key="highlightedColor"/>
@@ -215,9 +215,9 @@
                                                                                     </view>
                                                                                     <color key="backgroundColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                     <constraints>
-                                                                                        <constraint firstAttribute="trailing" secondItem="GN0-r1-6ad" secondAttribute="trailing" constant="8" id="BHe-4R-fba"/>
-                                                                                        <constraint firstItem="GN0-r1-6ad" firstAttribute="top" secondItem="Y1f-kr-HQj" secondAttribute="top" constant="15" id="Hg5-Xx-Dyw"/>
-                                                                                        <constraint firstItem="GN0-r1-6ad" firstAttribute="leading" secondItem="Y1f-kr-HQj" secondAttribute="leadingMargin" constant="8" id="ONh-ax-v2p"/>
+                                                                                        <constraint firstAttribute="trailing" secondItem="GN0-r1-6ad" secondAttribute="trailing" constant="5" id="BHe-4R-fba"/>
+                                                                                        <constraint firstItem="GN0-r1-6ad" firstAttribute="top" secondItem="Y1f-kr-HQj" secondAttribute="top" constant="5" id="Hg5-Xx-Dyw"/>
+                                                                                        <constraint firstItem="GN0-r1-6ad" firstAttribute="leading" secondItem="Y1f-kr-HQj" secondAttribute="leadingMargin" constant="5" id="ONh-ax-v2p"/>
                                                                                     </constraints>
                                                                                     <connections>
                                                                                         <outlet property="preCourse" destination="GN0-r1-6ad" id="2Aj-aF-apT"/>
@@ -881,8 +881,8 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Discription:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H2M-Df-1GO">
-                                                <rect key="frame" x="10" y="241" width="87" height="21"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Description:" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H2M-Df-1GO">
+                                                <rect key="frame" x="10" y="229" width="357" height="113"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>

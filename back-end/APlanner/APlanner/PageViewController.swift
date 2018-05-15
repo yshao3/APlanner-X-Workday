@@ -239,8 +239,12 @@ extension PageViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PreCollectionViewCell",
                                                       for: indexPath as IndexPath) as! PreCollectionViewCell
-        cell.preCourse.text = course.all_pre[collectionView.tag][indexPath.item]
+        let tmp = course.all_pre[collectionView.tag][indexPath.item]
+        cell.preCourse.text = tmp
         //print(cell.preCourse.text!)
+        if GloVar.courseDict[tmp]!.inScheduler {
+            cell.backgroundColor = UIColor(displayP3Red: 138/255, green: 206/255, blue: 92/255, alpha: 1)
+        }
         return cell
     }
     

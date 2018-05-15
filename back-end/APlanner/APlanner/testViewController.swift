@@ -90,8 +90,11 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
         var index = addToSemester(cur_year: String(year), cur_term: cur_term)
         
         for plan in fullplan{
+            var flag = true
             for course in plan{
+                
                 if (!course.inScheduler){
+                    flag = false
                     if (GloVar.scheduler[index]==nil){
                         var term = ""
                         if cur_year > float_t(integer_t(cur_year)){
@@ -108,8 +111,10 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
 //                    course.addFrom = track
                 }
             }
-            cur_year+=0.5
-            index += 1
+            if (!flag){
+                cur_year+=0.5
+                index += 1
+            }
         }
         check_model_key()
 //        print(String(describing: model))
@@ -200,7 +205,12 @@ class testViewController: UIViewController, UICollectionViewDelegate,UITableView
         //    print(fullplan)
         //    print(collectionView.tag)
         cell.name.text = Array(fullplan)[collectionView.tag][indexPath.item].course
-        if  cores.contains(Array(fullplan)[collectionView.tag][indexPath.item]){
+        if Array(fullplan)[collectionView.tag][indexPath.item].inScheduler{
+            
+            cell.backgroundColor = UIColor(displayP3Red: 138/255, green: 206/255, blue: 92/255, alpha: 1)
+            cell.name.textColor = UIColor.white
+        }
+        else if  cores.contains(Array(fullplan)[collectionView.tag][indexPath.item]){
             cell.backgroundColor = UIColor(displayP3Red: 90/255, green:200/255, blue: 250/255, alpha: 1.0)
              cell.name.textColor = UIColor.white
             
